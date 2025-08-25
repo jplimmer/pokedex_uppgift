@@ -11,10 +11,22 @@ export default function Footer() {
       <p>Explore the world of Pokémon</p>
       <div className="flex w-full items-center justify-evenly">
         <Link href={'/'}>
-          <Image src="/Facebook.svg" alt="" width={32} height={32} />
+          <Image
+            src="/Facebook.svg"
+            alt=""
+            width={32}
+            height={32}
+            className="h-auto w-auto"
+          />
         </Link>
         <Link href={'/'}>
-          <Image src="/Instagram.svg" alt="" width={32} height={32} />
+          <Image
+            src="/Instagram.svg"
+            alt=""
+            width={32}
+            height={32}
+            className="h-auto w-auto"
+          />
         </Link>
       </div>
     </div>

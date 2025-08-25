@@ -11,7 +11,13 @@ export default function HomeHeader() {
         <br /> your favourite and learn about their stats.
       </p>
       <button className="btn-primary w-1/3 m-auto">
-        <Image src="/Dice.svg" width={25} height={25} alt="Dice" />
+        <Image
+          src="/Dice.svg"
+          width={25}
+          height={25}
+          alt="Dice"
+          className="h-auto w-auto"
+        />
         <span>Random Pokémon</span>
       </button>
     </>
