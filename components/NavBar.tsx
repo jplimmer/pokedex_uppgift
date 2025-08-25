@@ -5,9 +5,9 @@ import Image from 'next/image';
 export default function NavBar() {
   return (
     <nav className="flex items-center justify-between py-2">
-      <Link href={'/'} className="flex items-center gap-4">
+      <Link href={'/'} className="flex items-center gap-2">
         <Image src="/Logo.png" alt="" width={32} height={32} />
-        Pokédex
+        <span className="font-bold">Pokédex</span>
       </Link>
       <ul className="flex gap-4">
         {data['pages'].map((link, index) => (
