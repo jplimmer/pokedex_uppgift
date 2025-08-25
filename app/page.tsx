@@ -1,3 +1,4 @@
+import FeaturedList from '@/components/Home/FeaturedList';
 import HomeHeader from '@/components/Home/Header';
 import SearchBar from '@/components/SearchBar';
 
@@ -9,6 +10,10 @@ export default function Home() {
       </section>
       <section className="content-grid full-width bg-white py-4">
         <SearchBar className="w-2/3 m-auto" />
+      </section>
+      <section className="content-grid full-width bg-purple-100">
+        <h2 className="text-bold text-center p-8 text-3xl">Featured Pokémon</h2>
+        <FeaturedList />
       </section>
     </main>
   );

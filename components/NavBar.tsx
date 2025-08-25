@@ -4,7 +4,7 @@ import Image from 'next/image';
 
 export default function NavBar() {
   return (
-    <nav className="flex items-center justify-between py-2">
+    <nav className="flex items-center justify-between py-4">
       <Link href={'/'} className="flex items-center gap-2">
         <Image src="/Logo.png" alt="" width={32} height={32} />
         <span className="font-bold">Pokédex</span>

@@ -9,7 +9,7 @@ export default function SearchBar({ className }: { className?: string }) {
         </label>
         <button
           type="submit"
-          className="py-2 px-4 rounded-md bg-blue-500 hover:bg-blue-600 cursor-pointer"
+          className="py-2 px-4 rounded-md bg-indigo-400 hover:bg-indigo-500 cursor-pointer"
         >
           <Image src="/Search.svg" alt="" width={16} height={16} />
         </button>
