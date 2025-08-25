@@ -12,8 +12,8 @@ export default function Home() {
         <SearchBar className="w-2/3 m-auto" />
       </section>
       <section className="content-grid full-width bg-purple-100">
-        <h2 className="text-bold text-center p-8 text-3xl">Featured Pokémon</h2>
-        <FeaturedList />
+        <h2 className="text-bold text-center text-4xl p-8">Featured Pokémon</h2>
+        <FeaturedList className="pb-12" />
       </section>
     </main>
   );
