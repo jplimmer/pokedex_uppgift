@@ -1,6 +1,6 @@
-import FeaturedList from '@/components/Home/FeaturedList';
-import HomeHeader from '@/components/Home/Header';
-import SearchBar from '@/components/SearchBar';
+import FeaturedList from '../components/Home/FeaturedList';
+import HomeHeader from '../components/Home/Header';
+import SearchBar from '../components/SearchBar';
 
 export default function Home() {
   return (
