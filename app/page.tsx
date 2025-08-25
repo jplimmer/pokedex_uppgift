@@ -1,19 +1,19 @@
-import Image from "next/image";
+import FeaturedList from '@/components/Home/FeaturedList';
+import HomeHeader from '@/components/Home/Header';
+import SearchBar from '@/components/SearchBar';
 
 export default function Home() {
   return (
-    <main>
-      <section className="flex flex-col items-center gap-4 bg-gradient-to-br [background-image:linear-gradient(-10deg,_#C97FE4,_#AECDF6)] p-14">
-        <h1 className="text-center mt-14 text-8xl font-extrabold text-transparent bg-gradient-to-r from-purple-800 to-blue-800 [background-clip:text]">Gotta catch 'em all!</h1>
-        <p className="text-center text-white text-xl">Discover, search and explore the amazing world of Pokémon. Find<br /> your favourite and learn about their stats.</p>
-        <button className="btn-primary">
-          <Image
-            src="/Dice.svg"
-            width={25}
-            height={25}
-            alt="Dice"
-          />
-          Random Pokémon</button>
+    <main className="content-grid">
+      <section className="content-grid full-width items-center gap-4 bg-gradient-to-br [background-image:linear-gradient(-10deg,_#C97FE4,_#AECDF6)]">
+        <HomeHeader />
+      </section>
+      <section className="content-grid full-width bg-white py-4">
+        <SearchBar className="w-2/3 m-auto" />
+      </section>
+      <section className="content-grid full-width bg-purple-100">
+        <h2 className="text-bold text-center p-8 text-3xl">Featured Pokémon</h2>
+        <FeaturedList />
       </section>
     </main>
   );
