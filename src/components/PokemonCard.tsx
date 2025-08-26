@@ -1,30 +1,11 @@
 import { capitaliseFirstLetter } from '@/utils/utils';
-import { getPokemonById, getStatValue } from '../lib/pokemon';
+import { fetchPokemonById, getStatValue } from '../lib/pokemon';
 import Image from 'next/image';
-
-export interface Pokemon {
-  id: number;
-  name: string;
-  sprites: {
-    front_default: string;
-  };
-  stats: Array<{
-    base_stat: number;
-    stat: {
-      name: string;
-    };
-  }>;
-  types: Array<{
-    type: {
-      name: string;
-    };
-  }>;
-}
 
 const StatNames = ['HP', 'Attack', 'Defense'];
 
 export default async function PokemonCard({ id }: { id: string }) {
-  const pokemon = await getPokemonById(id);
+  const pokemon = await fetchPokemonById(id);
 
   if (!pokemon) return;
 

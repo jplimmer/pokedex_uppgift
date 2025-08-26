@@ -1,5 +1,5 @@
 import PokemonCard from '@/components/PokemonCard';
-import { getNumberOfPokemon, getPokemonById } from '@/lib/pokemon';
+import { getNumberOfPokemon, fetchPokemonById } from '@/lib/pokemon';
 
 export async function generateStaticParams() {
   const maxId = await getNumberOfPokemon();
@@ -15,7 +15,7 @@ export default async function PokedexResult({
   params: { id: string };
 }) {
   const { id } = await params;
-  const pokemon = await getPokemonById(id);
+  const pokemon = await fetchPokemonById(id);
 
   if (!pokemon) return;
 

@@ -1,4 +1,4 @@
-import { getPokemonBySearchParam } from '@/lib/pokemon';
+import { fetchPokemonBySearchParam } from '@/lib/pokemon';
 import { routes } from '@/lib/routes';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
@@ -11,7 +11,7 @@ export default async function SearchBar({ className }: { className?: string }) {
     console.log(searchTerm);
     if (!searchTerm) return;
 
-    const id = await getPokemonBySearchParam(searchTerm);
+    const id = await fetchPokemonBySearchParam(searchTerm);
     redirect(`${routes.pokedex.href}/${id}`);
   }
 
