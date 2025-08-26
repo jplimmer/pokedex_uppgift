@@ -5,7 +5,7 @@ import SearchBar from '@/components/SearchBar';
 export default function Home() {
   return (
     <>
-      <section className="content-grid full-width items-center gap-4 bg-gradient-to-br [background-image:linear-gradient(-10deg,_#C97FE4,_#AECDF6)]">
+      <section className="content-grid full-width items-center gap-4 [background-image:linear-gradient(-10deg,_#C97FE4,_#AECDF6)]">
         <HomeHeader />
       </section>
       <section className="content-grid full-width bg-white py-8">
