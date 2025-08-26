@@ -3,30 +3,18 @@ import Image from 'next/image';
 
 export default function Footer() {
   return (
-    <div className="flex flex-col items-center p-8 gap-4 text-white m-auto">
-      <Link href={'/'} className="flex items-center gap-2">
-        <Image src="/Logo.png" alt="" width={32} height={32} />
-        <span className="font-bold">Pokédex</span>
+    <div className="flex flex-col items-center p-12 gap-6 text-white m-auto">
+      <Link href={'/'} className="flex items-center gap-3">
+        <Image src="/Logo.png" alt="" width={44} height={44} />
+        <span className="text-2xl font-jersey">Pokédex</span>
       </Link>
-      <p>Explore the world of Pokémon</p>
+      <p className="text-lg">Explore the world of Pokémon</p>
       <div className="flex w-full items-center justify-evenly">
         <Link href={'/'}>
-          <Image
-            src="/Facebook.svg"
-            alt=""
-            width={32}
-            height={32}
-            className="h-auto w-auto"
-          />
+          <Image src="/Facebook.svg" alt="" width={32} height={32} />
         </Link>
         <Link href={'/'}>
-          <Image
-            src="/Instagram.svg"
-            alt=""
-            width={32}
-            height={32}
-            className="h-auto w-auto"
-          />
+          <Image src="/Instagram.svg" alt="" width={32} height={32} />
         </Link>
       </div>
     </div>
