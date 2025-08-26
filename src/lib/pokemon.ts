@@ -9,9 +9,8 @@ export async function getNumberOfPokemon() {
   return 1025;
 }
 
-export async function getPokemonById(id: number) {
-  const idStr = id.toString();
-  const response = await fetch(pokemonUrl + idStr);
+export async function getPokemonById(id: string) {
+  const response = await fetch(pokemonUrl + id);
 
   if (response.status !== 200) {
     return;
@@ -20,6 +19,21 @@ export async function getPokemonById(id: number) {
   const pokemon: Pokemon = await response.json();
 
   return pokemon;
+}
+
+export async function getRandomPokemonIds(number: number) {
+  const total = await getNumberOfPokemon();
+
+  const pokemonIds = new Set<string>();
+
+  while (pokemonIds.size < number) {
+    const randomInt = Math.floor(Math.random() * total) + 1;
+    const res = await getPokemonById(randomInt.toString());
+    if (res) pokemonIds.add(randomInt.toString());
+  }
+
+  console.log('Selected IDs:', pokemonIds);
+  return Array.from(pokemonIds);
 }
 
 export function getStatValue(pokemon: Pokemon, statName: string) {
