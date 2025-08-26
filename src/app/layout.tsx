@@ -23,17 +23,24 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
+  modal,
 }: Readonly<{
   children: React.ReactNode;
+  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className={`${jaldi.variable} ${jersey.variable} antialiased`}>
-        <header className="content-grid bg-white">
+      <body
+        className={`${jaldi.variable} ${jersey.variable} antialiased flex flex-col min-h-svh`}
+      >
+        <header className="content-grid full-width bg-white">
           <NavBar />
         </header>
-        {children}
-        <footer className="content-grid bg-neutral-700">
+        <main className="flex-1 content-grid full-width">
+          {children}
+          {modal}
+        </main>
+        <footer className="content-grid full-width bg-neutral-700">
           <Footer />
         </footer>
       </body>
