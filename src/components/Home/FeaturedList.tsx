@@ -1,16 +1,17 @@
-// import { getNumberOfPokemon } from '@/lib/pokemon';
+import { getNumberOfPokemon } from '@/lib/pokemon';
 import PokemonCard from '../PokemonCard';
 import Link from 'next/link';
 import { getUniqueRandomInts } from '@/utils/utils';
 
 export default async function FeaturedList({
+  number = 4,
   className,
 }: {
+  number?: number;
   className?: string;
 }) {
-  // const total = await getNumberOfPokemon();
-  // const selected = getUniqueRandomInts(4, total);
-  const selected = getUniqueRandomInts(4, 1025);
+  const total = await getNumberOfPokemon();
+  const selected = getUniqueRandomInts(number, total);
 
   return (
     <ul

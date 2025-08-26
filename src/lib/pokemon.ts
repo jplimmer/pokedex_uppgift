@@ -4,9 +4,9 @@ const baseUrl = 'https://pokeapi.co/api/v2/';
 const pokemonUrl = baseUrl + 'pokemon/';
 
 export async function getNumberOfPokemon() {
-  const { count } = await fetch(pokemonUrl).then((res) => res.json());
-  // console.log(count);
-  return count;
+  // const { count } = await fetch(pokemonUrl).then((res) => res.json());
+  // return count;
+  return 1025;
 }
 
 export async function getPokemonById(id: number) {
@@ -18,7 +18,6 @@ export async function getPokemonById(id: number) {
   }
 
   const pokemon: Pokemon = await response.json();
-  // console.log(pokemon);
 
   return pokemon;
 }
