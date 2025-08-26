@@ -23,16 +23,14 @@ export interface Pokemon {
 
 const StatNames = ['HP', 'Attack', 'Defense'];
 
-export default async function PokemonCard({ id }: { id: number }) {
+export default async function PokemonCard({ id }: { id: string }) {
   const pokemon = await getPokemonById(id);
 
   if (!pokemon) return;
 
-  // const stats = ;
-
   return (
     <div className="flex flex-col items-center space-y-2 border-4 border-indigo-400 rounded-lg bg-indigo-50 p-4">
-      <h3 className="text-3xl">{capitaliseFirstLetter(pokemon.name)}</h3>
+      <h3 className="text-2xl">{capitaliseFirstLetter(pokemon.name)}</h3>
       <div className="flex flex-col items-center order-first gap-2">
         <Image
           src={pokemon.sprites.front_default}
