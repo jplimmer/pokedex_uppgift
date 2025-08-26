@@ -1,4 +1,5 @@
 import { Pokemon } from '@/components/PokemonCard';
+import { routes } from './routes';
 
 const baseUrl = 'https://pokeapi.co/api/v2/';
 const pokemonUrl = baseUrl + 'pokemon/';
@@ -7,6 +8,18 @@ export async function getNumberOfPokemon() {
   // const { count } = await fetch(pokemonUrl).then((res) => res.json());
   // return count;
   return 1025;
+}
+
+export async function getPokemonBySearchParam(identifier: string) {
+  const response = await fetch(pokemonUrl + identifier);
+
+  if (response.status !== 200) {
+    return;
+  }
+
+  const { id } = await response.json();
+  console.log(`${routes.pokedex}/${id}`);
+  return id;
 }
 
 export async function getPokemonById(id: string) {
