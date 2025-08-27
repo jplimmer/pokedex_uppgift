@@ -1,5 +1,5 @@
-import { Pokemon } from '@/components/PokemonCard';
 import { routes } from './routes';
+import { Pokemon, PokemonListItem } from './types';
 
 const baseUrl = 'https://pokeapi.co/api/v2/';
 const pokemonUrl = baseUrl + 'pokemon/';
@@ -10,19 +10,26 @@ export async function getNumberOfPokemon() {
   return 1025;
 }
 
-export async function getPokemonBySearchParam(identifier: string) {
-  const response = await fetch(pokemonUrl + identifier);
+export async function fetchAllPokemon(limit = 20, offset = 0) {
+  const queryString = `?limit=${limit}&offset=${offset}`;
+  const response = await fetch(pokemonUrl + queryString);
 
   if (response.status !== 200) {
     return;
   }
 
-  const { id } = await response.json();
-  console.log(`${routes.pokedex}/${id}`);
-  return id;
+  const { results: pokemonList }: { results: PokemonListItem[] } =
+    await response.json();
+
+  for (const p of pokemonList) {
+    const id = getIdfromPokemonUrl(p.url);
+    p['id'] = id;
+  }
+
+  return pokemonList;
 }
 
-export async function getPokemonById(id: string) {
+export async function fetchPokemonById(id: string) {
   const response = await fetch(pokemonUrl + id);
 
   if (response.status !== 200) {
@@ -34,6 +41,18 @@ export async function getPokemonById(id: string) {
   return pokemon;
 }
 
+export async function fetchPokemonBySearchParam(identifier: string) {
+  const response = await fetch(pokemonUrl + identifier);
+
+  if (response.status !== 200) {
+    return;
+  }
+
+  const { id } = await response.json();
+  console.log(`${routes.pokedex}/${id}`);
+  return id;
+}
+
 export async function getRandomPokemonIds(number: number) {
   const total = await getNumberOfPokemon();
 
@@ -41,12 +60,18 @@ export async function getRandomPokemonIds(number: number) {
 
   while (pokemonIds.size < number) {
     const randomInt = Math.floor(Math.random() * total) + 1;
-    const res = await getPokemonById(randomInt.toString());
+    const res = await fetchPokemonById(randomInt.toString());
     if (res) pokemonIds.add(randomInt.toString());
   }
 
   console.log('Selected IDs:', pokemonIds);
   return Array.from(pokemonIds);
+}
+
+export function getIdfromPokemonUrl(url: string) {
+  const pathname = new URL(url).pathname;
+  const id = pathname.split('pokemon/')[1]?.replace('/', '');
+  return id;
 }
 
 export function getStatValue(pokemon: Pokemon, statName: string) {

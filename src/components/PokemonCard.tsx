@@ -4,13 +4,24 @@ import Image from 'next/image';
 
 const StatNames = ['HP', 'Attack', 'Defense'];
 
-export default async function PokemonCard({ id }: { id: string }) {
+export default async function PokemonCard({
+  id,
+  className,
+}: {
+  id: string;
+  className?: string;
+}) {
   const pokemon = await fetchPokemonById(id);
 
   if (!pokemon) return;
 
   return (
-    <div className="flex flex-col items-center space-y-2 border-4 border-indigo-400 rounded-lg bg-indigo-50 p-4">
+    <div
+      className={`
+        flex flex-col items-center justify-center
+        border-4 border-indigo-400 rounded-lg 
+        bg-indigo-50 p-4 space-y-2 aspect-3/4 ${className}`}
+    >
       <h3 className="text-2xl">{capitaliseFirstLetter(pokemon.name)}</h3>
       <div className="flex flex-col items-center order-first gap-2">
         <Image

@@ -18,7 +18,7 @@ export default async function FeaturedList({
     >
       {selectedIds.map((id, index) => (
         <li key={index}>
-          <Link href={`${routes.pokedex.href}/${id}`}>
+          <Link href={`${routes.pokedex.href}/${id}`} scroll={false}>
             <PokemonCard id={id} />
           </Link>
         </li>
