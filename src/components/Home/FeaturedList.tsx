@@ -1,4 +1,4 @@
-import { getRandomPokemon } from '@/lib/pokemon';
+import { getRandomPokemon } from '@/lib/pokemonData';
 import CardList from '../CardList';
 
 export default async function FeaturedList({

@@ -1,5 +1,5 @@
 import { capitaliseFirstLetter } from '@/utils/utils';
-import { getStatValue } from '../lib/pokemon';
+import { getStatValue } from '../lib/pokemonData';
 import Image from 'next/image';
 import { Pokemon } from '@/lib/types';
 

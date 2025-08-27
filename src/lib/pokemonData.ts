@@ -1,8 +1,7 @@
 import { routes } from './routes';
-import { Pokemon, PokemonListItem } from './types';
+import { Pokemon, GroupResultItem } from './types';
 
-const baseUrl = 'https://pokeapi.co/api/v2/';
-const pokemonUrl = baseUrl + 'pokemon/';
+const pokemonUrl = 'https://pokeapi.co/api/v2/pokemon/';
 
 export async function getNumberOfPokemon() {
   // const { count } = await fetch(pokemonUrl).then((res) => res.json());
@@ -23,7 +22,7 @@ export async function fetchAllPokemon(limit?: number, offset = 0) {
     return;
   }
 
-  const { results: pokemonList }: { results: PokemonListItem[] } =
+  const { results: pokemonList }: { results: GroupResultItem[] } =
     await response.json();
 
   // for (const p of pokemonList) {
@@ -77,11 +76,11 @@ export async function getRandomPokemon(number: number) {
   return pokemonList;
 }
 
-export function getIdfromPokemonUrl(url: string) {
-  const pathname = new URL(url).pathname;
-  const id = pathname.split('pokemon/')[1]?.replace('/', '');
-  return id;
-}
+// function getIdfromPokemonUrl(url: string) {
+//   const pathname = new URL(url).pathname;
+//   const id = pathname.split('pokemon/')[1]?.replace('/', '');
+//   return id;
+// }
 
 export function getStatValue(pokemon: Pokemon, statName: string) {
   const stat = pokemon.stats.find(
@@ -91,7 +90,7 @@ export function getStatValue(pokemon: Pokemon, statName: string) {
 }
 
 export async function fetchPokemonData(
-  list: PokemonListItem[]
+  list: GroupResultItem[]
 ): Promise<Pokemon[]> {
   const fetchPromises = list.map((item) => fetch(item.url));
 
@@ -106,7 +105,7 @@ export async function fetchPokemonData(
     const pokemonData: Pokemon[] = await Promise.all(jsonPromises);
     return pokemonData;
   } catch (error) {
-    console.log(error);
+    console.error('Error fetching data for Pokémon list:', error);
     return [];
   }
 }
