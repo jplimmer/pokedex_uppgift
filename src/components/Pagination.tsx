@@ -77,9 +77,14 @@ function PaginationNumber({
   const className = 'text-xl text-center';
 
   return isActive || position === 'middle' ? (
-    <span className={className}>{page}</span>
+    <span className={`${className} ${isActive ? 'underline' : ''}`}>
+      {page}
+    </span>
   ) : (
-    <Link href={href} className={className}>
+    <Link
+      href={href}
+      className={`${className} hover:text-neutral-900 hover:underline`}
+    >
       {page}
     </Link>
   );
@@ -101,5 +106,14 @@ function PaginationArrow({
       <CircleArrowRight size={24} />
     );
 
-  return isDisabled ? <div>{icon}</div> : <Link href={href}>{icon}</Link>;
+  return isDisabled ? (
+    <div className="">{icon}</div>
+  ) : (
+    <Link
+      href={href}
+      className="hover:text-neutral-900 hover:bg-neutral-300 rounded-full"
+    >
+      {icon}
+    </Link>
+  );
 }
