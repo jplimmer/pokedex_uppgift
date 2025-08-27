@@ -1,35 +1,24 @@
 import { capitaliseFirstLetter } from '@/utils/utils';
-import { getPokemonById, getStatValue } from '../lib/pokemon';
+import { getStatValue } from '../lib/pokemon';
 import Image from 'next/image';
+import { Pokemon } from '@/lib/types';
 
-export interface Pokemon {
-  id: number;
-  name: string;
-  sprites: {
-    front_default: string;
-  };
-  stats: Array<{
-    base_stat: number;
-    stat: {
-      name: string;
-    };
-  }>;
-  types: Array<{
-    type: {
-      name: string;
-    };
-  }>;
-}
-
-const StatNames = ['HP', 'Attack', 'Defense'];
-
-export default async function PokemonCard({ id }: { id: string }) {
-  const pokemon = await getPokemonById(id);
-
-  if (!pokemon) return;
+export default function PokemonCard({
+  pokemon,
+  className,
+}: {
+  pokemon: Pokemon;
+  className?: string;
+}) {
+  const StatNames = ['HP', 'Attack', 'Defense'];
 
   return (
-    <div className="flex flex-col items-center space-y-2 border-4 border-indigo-400 rounded-lg bg-indigo-50 p-4">
+    <div
+      className={`
+        flex flex-col items-center justify-center
+        border-4 border-indigo-400 rounded-lg 
+        bg-indigo-50 p-4 space-y-2 aspect-3/4 ${className}`}
+    >
       <h3 className="text-2xl">{capitaliseFirstLetter(pokemon.name)}</h3>
       <div className="flex flex-col items-center order-first gap-2">
         <Image

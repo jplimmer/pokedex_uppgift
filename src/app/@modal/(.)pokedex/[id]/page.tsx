@@ -1,6 +1,6 @@
 import { Modal } from '@/components/Modal';
 import PokemonCard from '@/components/PokemonCard';
-import { getPokemonById } from '@/lib/pokemon';
+import { fetchPokemonById } from '@/lib/pokemon';
 
 export default async function CardModal({
   params,
@@ -9,13 +9,13 @@ export default async function CardModal({
 }) {
   const { id } = await params;
 
-  const pokemon = await getPokemonById(id);
+  const pokemon = await fetchPokemonById(id);
 
   if (!pokemon) return;
 
   return (
     <Modal dialogClassName="[background-image:linear-gradient(-10deg,_#C97FE4,_#AECDF6)]">
-      <PokemonCard id={id} />
+      <PokemonCard pokemon={pokemon} />
     </Modal>
   );
 }
