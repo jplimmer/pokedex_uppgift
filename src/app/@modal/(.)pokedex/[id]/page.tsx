@@ -15,7 +15,7 @@ export default async function CardModal({
 
   return (
     <Modal dialogClassName="[background-image:linear-gradient(-10deg,_#C97FE4,_#AECDF6)]">
-      <PokemonCard id={id} />
+      <PokemonCard pokemon={pokemon} />
     </Modal>
   );
 }

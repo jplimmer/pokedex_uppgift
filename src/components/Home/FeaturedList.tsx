@@ -1,4 +1,4 @@
-import { getRandomPokemonIds } from '@/lib/pokemon';
+import { getRandomPokemon } from '@/lib/pokemon';
 import PokemonCard from '../PokemonCard';
 import Link from 'next/link';
 import { routes } from '@/lib/routes';
@@ -10,16 +10,16 @@ export default async function FeaturedList({
   number?: number;
   className?: string;
 }) {
-  const selectedIds = await getRandomPokemonIds(number);
+  const selectedPokemon = await getRandomPokemon(number);
 
   return (
     <ul
       className={`grid gap-4 grid-cols-[repeat(auto-fit,minmax(25ch,1fr))] content-stretch ${className}`}
     >
-      {selectedIds.map((id, index) => (
+      {selectedPokemon.map((pokemon, index) => (
         <li key={index}>
-          <Link href={`${routes.pokedex.href}/${id}`} scroll={false}>
-            <PokemonCard id={id} />
+          <Link href={`${routes.pokedex.href}/${pokemon.id}`} scroll={false}>
+            <PokemonCard pokemon={pokemon} />
           </Link>
         </li>
       ))}

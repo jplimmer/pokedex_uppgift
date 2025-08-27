@@ -22,7 +22,7 @@ export default async function PokedexResult({
   return (
     <div className="content-grid full-width justify-items-center items-center [background-image:linear-gradient(-10deg,_#f5e6fb,_#eef5fd)]">
       <div className="w-[25ch]">
-        <PokemonCard id={id} />
+        <PokemonCard pokemon={pokemon} />
       </div>
     </div>
   );

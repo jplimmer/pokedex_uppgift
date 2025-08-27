@@ -1,19 +1,16 @@
 import { capitaliseFirstLetter } from '@/utils/utils';
-import { fetchPokemonById, getStatValue } from '../lib/pokemon';
+import { getStatValue } from '../lib/pokemon';
 import Image from 'next/image';
+import { Pokemon } from '@/lib/types';
 
-const StatNames = ['HP', 'Attack', 'Defense'];
-
-export default async function PokemonCard({
-  id,
+export default function PokemonCard({
+  pokemon,
   className,
 }: {
-  id: string;
+  pokemon: Pokemon;
   className?: string;
 }) {
-  const pokemon = await fetchPokemonById(id);
-
-  if (!pokemon) return;
+  const StatNames = ['HP', 'Attack', 'Defense'];
 
   return (
     <div
