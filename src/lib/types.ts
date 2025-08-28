@@ -3,7 +3,7 @@ export interface GroupResultItem {
   url: string;
 }
 
-export interface Pokemon {
+export type PokemonResultItem = {
   id: number;
   name: string;
   sprites: {
@@ -15,11 +15,30 @@ export interface Pokemon {
       name: string;
     };
   }>;
-  types: Array<{
-    type: {
-      name: string;
-    };
-  }>;
+  types: {
+    slot: number;
+    type: GroupResultItem;
+  }[];
+};
+
+export interface Pokemon {
+  id: number;
+  name: string;
+  sprites: {
+    primary: string;
+  };
+  stats: {
+    hp: string;
+    attack: string;
+    defense: string;
+    specialAttack?: string;
+    specialDefense?: string;
+    speed?: string;
+    accuracy?: string;
+    evasion?: string;
+  };
+  primaryType: TypeColour;
+  types: TypeColour[];
 }
 
 export type PokemonTypeResultItem = {
@@ -27,13 +46,17 @@ export type PokemonTypeResultItem = {
   name: string;
   pokemon: {
     pokemon: GroupResultItem;
+    slot: number;
   }[];
 };
 
-export interface PokemonType {
-  id: number;
+export interface TypeColour {
   name: string;
-  pokemonIds: string[];
-  sprite: string;
   colour: string;
+}
+
+export interface PokemonType extends TypeColour {
+  id: number;
+  pokemon: GroupResultItem[];
+  sprite: string;
 }
