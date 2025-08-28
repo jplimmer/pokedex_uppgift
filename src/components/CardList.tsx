@@ -11,7 +11,7 @@ export default function CardList({ pokemonList }: { pokemonList: Pokemon[] }) {
           p.id && (
             <li key={i} className="w-full justify-items-center">
               <Link href={`${routes.pokedex.href}/${p.id}`} scroll={false}>
-                <PokemonCard pokemon={p} className="bg-white" />
+                <PokemonCard pokemon={p} />
               </Link>
             </li>
           )
