@@ -1,3 +1,8 @@
+export interface GroupResultItem {
+  name: string;
+  url: string;
+}
+
 export interface Pokemon {
   id: number;
   name: string;
@@ -17,8 +22,18 @@ export interface Pokemon {
   }>;
 }
 
-export interface PokemonListItem {
+export type PokemonTypeResultItem = {
+  id: number;
   name: string;
-  url: string;
-  id?: string;
+  pokemon: {
+    pokemon: GroupResultItem;
+  }[];
+};
+
+export interface PokemonType {
+  id: number;
+  name: string;
+  pokemonIds: string[];
+  sprite: string;
+  colour: string;
 }

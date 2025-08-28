@@ -76,11 +76,19 @@ export async function getRandomPokemon(number: number) {
   return pokemonList;
 }
 
-// function getIdfromPokemonUrl(url: string) {
-//   const pathname = new URL(url).pathname;
-//   const id = pathname.split('pokemon/')[1]?.replace('/', '');
-//   return id;
-// }
+export const getSprite = async (item: GroupResultItem) => {
+  try {
+    const pokemonData: Pokemon = await fetch(item.url).then((res) =>
+      res.json()
+    );
+    const sprite = pokemonData.sprites.front_default;
+    if (!sprite) throw new Error('No sprite found for Pokémon');
+    return sprite;
+  } catch (error) {
+    console.log(`Error fetching sprite for type "${item.name}":`, error);
+    return null;
+  }
+};
 
 export function getStatValue(pokemon: Pokemon, statName: string) {
   const stat = pokemon.stats.find(
