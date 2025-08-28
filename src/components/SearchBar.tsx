@@ -1,4 +1,4 @@
-import { fetchPokemonBySearchParam } from '@/lib/pokemon';
+import { fetchPokemonBySearchParam } from '@/lib/pokemonData';
 import { routes } from '@/lib/routes';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';

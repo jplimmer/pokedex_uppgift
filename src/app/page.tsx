@@ -11,9 +11,9 @@ export default function Home() {
       <section className="content-grid full-width bg-white py-8">
         <SearchBar className="w-2/3 m-auto" />
       </section>
-      <section className="content-grid full-width [background-image:linear-gradient(-10deg,_#f5e6fb,_#eef5fd)]">
+      <section className="content-grid full-width [background-image:linear-gradient(-10deg,_#f5e6fb,_#eef5fd)] pb-12">
         <h2 className="text-bold text-center text-4xl p-8">Featured Pokémon</h2>
-        <FeaturedList className="pb-12" />
+        <FeaturedList />
       </section>
     </>
   );

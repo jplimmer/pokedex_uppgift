@@ -1,5 +1,5 @@
 import PokemonCard from '@/components/PokemonCard';
-import { getNumberOfPokemon, fetchPokemonById } from '@/lib/pokemon';
+import { getNumberOfPokemon, fetchPokemonById } from '@/lib/pokemonData';
 
 export async function generateStaticParams() {
   const maxId = await getNumberOfPokemon();
