@@ -2,6 +2,13 @@ export function capitaliseFirstLetter(string: string) {
   return String(string).charAt(0).toUpperCase() + String(string).slice(1);
 }
 
+export function getIdfromApiUrl(url: string) {
+  const pathname = new URL(url).pathname;
+  const route = pathname.split('api/v2/')[1];
+  const id = route.split('/')[1]?.replace('/', '');
+  return id;
+}
+
 export function getUniqueRandomInts(count: number, max: number): number[] {
   const numbers = new Set<number>();
 
