@@ -2,7 +2,7 @@
 
 import { capitaliseFirstLetter, splitByQuery } from '@/utils/utils';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
 export default function SearchBar({
@@ -18,8 +18,11 @@ export default function SearchBar({
 }) {
   const [query, setQuery] = useState<string>('');
   const [matches, setMatches] = useState<string[]>([]);
-  // const [showList, setShowList] = useState(false);
+  const [showList, setShowList] = useState(false);
+  const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  const containerRef = useRef<HTMLDivElement>(null);
 
+  // Display list of pokemon matching the query string
   useEffect(() => {
     if (!allResults) return;
 
@@ -30,18 +33,60 @@ export default function SearchBar({
         res.toLowerCase().includes(query.toLowerCase())
       );
       setMatches(filtered);
+      // Display list with no items highlighted
+      setShowList(filtered.length > 0);
+      setHighlightedIndex(-1);
     }
   }, [query, allResults]);
 
-  const handleListClick = (selectedValue: string) => {
-    if (selectedValue === '...') return;
+  // Close dropdown on outside click
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(e.target as Node)
+      ) {
+        setShowList(false);
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
-    formatMatch(selectedValue, query);
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (!showList || matches.length === 0) return;
 
-    setQuery(selectedValue);
+    if (e.key === 'Escape') {
+      setShowList(false);
+      return;
+    }
+
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setHighlightedIndex((prev) => Math.min(prev + 1, matches.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setHighlightedIndex((prev) => Math.max(prev - 1, -1));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (highlightedIndex >= 0) {
+        selectMatch(matches[highlightedIndex]);
+      } else {
+        submitQuery(query);
+      }
+    }
+  };
+
+  const selectMatch = (value: string) => {
+    setQuery(value);
+    submitQuery(value);
+  };
+
+  const submitQuery = (value: string) => {
+    setShowList(false);
 
     const formData = new FormData();
-    formData.append('search', selectedValue);
+    formData.append('search', value);
 
     searchAction(formData);
   };
@@ -61,7 +106,10 @@ export default function SearchBar({
   };
 
   return (
-    <div className={`relative flex flex-col items-center ${className}`}>
+    <div
+      ref={containerRef}
+      className={`relative flex flex-col items-center ${className}`}
+    >
       <form
         action={searchAction}
         className="flex items-center gap-2 rounded-sm shadow-md drop-shadow-2xl p-2 w-full"
@@ -73,6 +121,7 @@ export default function SearchBar({
           type="text"
           defaultValue={query}
           onChange={useDebouncedCallback((e) => setQuery(e.target.value), wait)}
+          onKeyDown={handleKeyDown}
           placeholder="Search for a Pokémon..."
           required
           autoComplete="off"
@@ -88,28 +137,29 @@ export default function SearchBar({
           <Image src="/Search.svg" alt="" width={16} height={16} />
         </button>
       </form>
-      <ul
-        className="
+      {showList && (
+        <ul
+          className="
           absolute top-full left-0 right-0 w-full
           bg-white border-1 border-neutral-300 rounded-md
           shadow-lg max-h-60 overflow-y-auto"
-      >
-        {matches.map((pokemon, index) => (
-          <li
-            key={index}
-            onClick={() => {
-              handleListClick(pokemon);
-            }}
-            className={`px-4 rounded-sm border-b border-neutral-100 last:border-b-0 ${
-              pokemon === '...'
-                ? 'text-neutral-500 cursor-default'
-                : 'hover:bg-neutral-700 hover:text-white cursor-pointer'
-            }`}
-          >
-            {formatMatch(pokemon, query)}
-          </li>
-        ))}
-      </ul>
+        >
+          {matches.map((pokemon, index) => (
+            <li
+              key={index}
+              onMouseEnter={() => setHighlightedIndex(index)}
+              onClick={() => {
+                selectMatch(pokemon);
+              }}
+              className={`px-4 rounded-sm border-b border-neutral-100 last:border-b-0 cursor-pointer ${
+                index === highlightedIndex ? 'bg-neutral-600 text-white' : ''
+              }`}
+            >
+              {formatMatch(pokemon, query)}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
