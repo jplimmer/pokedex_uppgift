@@ -54,8 +54,8 @@ export default function FilterButton({
         <Image
           src={pokemonType.sprite}
           alt=""
-          width={80}
-          height={80}
+          width={68}
+          height={68}
           style={{
             borderColor: `${pokemonType.colour}${isActive ? '30' : ''}`,
           }}
