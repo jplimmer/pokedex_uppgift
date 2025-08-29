@@ -1,22 +1,24 @@
 import PokemonCard from '@/components/PokemonCard';
-import { getNumberOfPokemon, fetchPokemonById } from '@/lib/pokemonData';
+import { fetchPokemonByNameOrId, getAllPokemon } from '@/lib/pokemonData';
 
 export async function generateStaticParams() {
-  const maxId = await getNumberOfPokemon();
-
-  return Array.from({ length: maxId }, (_, i) => ({
-    id: String(i + 1),
-  }));
+  const pokemonList = await getAllPokemon();
+  if (pokemonList) {
+    return pokemonList.map((p) => ({
+      name: p.name,
+    }));
+  } else {
+    console.warn('Static params could not be generated, getAllPokemon failed');
+  }
 }
 
 export default async function PokedexResult({
   params,
 }: {
-  params: { id: string };
+  params: { name: string };
 }) {
-  const { id } = await params;
-  const pokemon = await fetchPokemonById(id);
-
+  const { name } = await params;
+  const pokemon = await fetchPokemonByNameOrId(name);
   if (!pokemon) return;
 
   return (

@@ -1,15 +1,15 @@
 import { Modal } from '@/components/Modal';
 import PokemonCard from '@/components/PokemonCard';
-import { fetchPokemonById } from '@/lib/pokemonData';
+import { fetchPokemonByNameOrId } from '@/lib/pokemonData';
 
 export default async function CardModal({
   params,
 }: {
-  params: { id: string };
+  params: { name: string };
 }) {
-  const { id } = await params;
+  const { name } = await params;
 
-  const pokemon = await fetchPokemonById(id);
+  const pokemon = await fetchPokemonByNameOrId(name);
 
   if (!pokemon) return;
 

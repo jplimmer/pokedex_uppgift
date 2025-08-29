@@ -71,7 +71,9 @@ const extractTypeData = async (
   try {
     const pokemonList: GroupResultItem[] = item.pokemon.map((p) => p.pokemon);
 
-    const spritePokemon = item.pokemon[2].pokemon;
+    const spritePokemon =
+      item.pokemon.filter((p) => p.slot === 1)[1]?.pokemon ??
+      item.pokemon[2].pokemon;
     const sprite = await getSprite(spritePokemon);
 
     const colour = typeColours.find((t) => t.name === item.name)?.colour;

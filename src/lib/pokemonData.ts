@@ -1,15 +1,16 @@
 import { unstable_cache } from 'next/cache';
-import { routes } from './routes';
 import { Pokemon, GroupResultItem, PokemonResultItem } from './types';
 import { getTypeColour } from './pokemonTypeData';
 
 const pokemonUrl = 'https://pokeapi.co/api/v2/pokemon/';
 
 export const getNumberOfPokemon = async () => {
-  // const { count } = await fetch(pokemonUrl).then((res) => res.json());
-  // return count;
+  const { count }: { count: number } = await fetch(pokemonUrl).then((res) =>
+    res.json()
+  );
+  return count;
   // Hard-coded due to data-quality in API
-  return 1025;
+  // return 1025;
 };
 
 export const getAllPokemon = unstable_cache(async () => {
@@ -128,8 +129,8 @@ export const getSprite = async (item: GroupResultItem) => {
   }
 };
 
-export async function fetchPokemonById(id: string) {
-  const response = await fetch(pokemonUrl + id);
+export async function fetchPokemonByNameOrId(identifier: string) {
+  const response = await fetch(pokemonUrl + identifier.toString());
 
   if (response.status !== 200) {
     return null;
@@ -141,7 +142,7 @@ export async function fetchPokemonById(id: string) {
     const pokemon = await extractPokemonData(result);
     return pokemon;
   } catch (error) {
-    console.error(`Failed to fetch data for pokemon with id ${id}:`, error);
+    console.error(`Failed to fetch data for "${identifier}":`, error);
     return null;
   }
 }
@@ -155,7 +156,7 @@ export async function getRandomPokemon(number: number) {
   while (pokemonIds.size < number) {
     const randomInt = Math.floor(Math.random() * total) + 1;
     // Check page exists before adding to set
-    const res = await fetchPokemonById(randomInt.toString());
+    const res = await fetchPokemonByNameOrId(randomInt.toString());
     if (res) {
       pokemonIds.add(randomInt.toString());
       pokemonList.push(res);
@@ -163,18 +164,4 @@ export async function getRandomPokemon(number: number) {
   }
 
   return pokemonList;
-}
-
-/////////////////////////////////////////////////
-
-export async function fetchPokemonBySearchParam(identifier: string) {
-  const response = await fetch(pokemonUrl + identifier);
-
-  if (response.status !== 200) {
-    return;
-  }
-
-  const { id } = await response.json();
-  console.log(`${routes.pokedex}/${id}`);
-  return id;
 }
