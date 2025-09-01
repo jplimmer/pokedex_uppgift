@@ -1,7 +1,8 @@
-import FeaturedList from '@/components/Home/FeaturedList';
-import RandomPokemonButton from '@/components/Home/RandomPokemonButton';
+import CardList from '@/components/CardList';
+import FeaturedList from '@/components/FeaturedList';
+import RandomPokemonButton from '@/components/RandomPokemonButton';
 import SearchBar from '@/components/SearchBar';
-import { getAllPokemonNames } from '@/lib/pokemonData';
+import { getAllPokemonNames, getRandomPokemon } from '@/lib/pokemonData';
 import { navigateToSearchedPokemon } from '@/lib/search';
 
 export default async function Home() {
@@ -9,6 +10,8 @@ export default async function Home() {
   if (!pokemonList) {
     console.warn('Failed to fetch all pokemon names');
   }
+
+  const featuredList = await getRandomPokemon(4);
 
   return (
     <>
@@ -31,7 +34,7 @@ export default async function Home() {
       </section>
       <section className="content-grid full-width [background-image:linear-gradient(-10deg,_#f5e6fb,_#eef5fd)] pb-12">
         <h2 className="text-bold text-center text-4xl p-8">Featured Pokémon</h2>
-        <FeaturedList />
+        <CardList pokemonList={featuredList} />
       </section>
     </>
   );
