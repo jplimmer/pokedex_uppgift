@@ -5,7 +5,7 @@ import {
   getAllPokemonNames,
   getRandomPokemon,
 } from '@/lib/data/rest-api/pokemon';
-import { navigateToSearchedPokemon } from '@/lib/serverActions';
+import { navigateToSearchedPokemon } from '@/lib/app/serverActions';
 
 export default async function Home() {
   const pokemonList = await getAllPokemonNames();

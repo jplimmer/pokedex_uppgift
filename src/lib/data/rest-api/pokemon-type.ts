@@ -2,7 +2,7 @@ import { unstable_cache } from 'next/cache';
 import { typeColours } from '../colours';
 import { getSprite } from './pokemon';
 import { GroupResultItem, PokemonTypeResultItem } from './types';
-import { PokemonType } from '@/lib/types';
+import { PokemonType } from '@/lib/app/types';
 
 const typeUrl = 'https://pokeapi.co/api/v2/type/';
 

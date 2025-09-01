@@ -1,4 +1,4 @@
-import { GroupResultItem } from './data/rest-api/types';
+import { GroupResultItem } from '../data/rest-api/types';
 
 export interface Pokemon {
   id: number;
