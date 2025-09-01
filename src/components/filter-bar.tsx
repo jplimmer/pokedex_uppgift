@@ -40,6 +40,7 @@ export default function FilterBar({
         onChange={(e) => handleFilter(e.target.value)}
         defaultValue={searchParams.get('query')?.toString()}
         placeholder={placeholder ?? 'Search...'}
+        autoComplete="off"
         className={`border-2 border-neutral-500 rounded-md bg-white py-2 px-4 ${className}`}
       />
     </div>

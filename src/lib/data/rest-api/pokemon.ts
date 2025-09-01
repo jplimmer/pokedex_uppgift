@@ -1,5 +1,6 @@
-import { Pokemon, GroupResultItem, PokemonResultItem } from './types';
-import { getTypeColour } from './pokemonTypeData';
+import { GroupResultItem, PokemonResultItem } from './types';
+import { getTypeColour } from './pokemon-type';
+import { Pokemon } from '@/lib/types';
 
 const pokemonUrl = 'https://pokeapi.co/api/v2/pokemon/';
 

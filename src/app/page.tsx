@@ -1,8 +1,11 @@
 import CardList from '@/components/card-list';
 import RandomPokemonButton from '@/components/random-pokemon-button';
 import SearchBar from '@/components/search-bar';
-import { getAllPokemonNames, getRandomPokemon } from '@/lib/pokemonData';
-import { navigateToSearchedPokemon } from '@/lib/search';
+import {
+  getAllPokemonNames,
+  getRandomPokemon,
+} from '@/lib/data/rest-api/pokemon';
+import { navigateToSearchedPokemon } from '@/lib/serverActions';
 
 export default async function Home() {
   const pokemonList = await getAllPokemonNames();

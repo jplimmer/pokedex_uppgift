@@ -1,6 +1,6 @@
 'use client';
 
-import { getRandomPokemon } from '@/lib/pokemonData';
+import { getRandomPokemon } from '@/lib/data/rest-api/pokemon';
 import { routes } from '@/lib/routes';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';

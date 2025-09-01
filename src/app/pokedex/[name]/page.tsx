@@ -1,5 +1,8 @@
 import PokemonCard from '@/components/pokemon-card';
-import { fetchPokemonByNameOrId, getAllPokemon } from '@/lib/pokemonData';
+import {
+  fetchPokemonByNameOrId,
+  getAllPokemon,
+} from '@/lib/data/rest-api/pokemon';
 
 export async function generateStaticParams() {
   const pokemonList = await getAllPokemon();
