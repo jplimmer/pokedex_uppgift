@@ -1,7 +1,7 @@
 'use client';
 
 import { getRandomPokemon } from '@/lib/data/rest-api/pokemon';
-import { routes } from '@/lib/app/routes';
+import { ROUTES } from '@/lib/constants';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -12,7 +12,7 @@ export default function RandomPokemonButton() {
     const randomPokemon = await getRandomPokemon(1);
 
     if (randomPokemon) {
-      router.push(`${routes.pokedex.href}/${randomPokemon[0].name}`, {
+      router.push(`${ROUTES.POKEDEX.href}/${randomPokemon[0].name}`, {
         scroll: false,
       });
     } else {

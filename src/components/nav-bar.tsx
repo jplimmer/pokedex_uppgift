@@ -1,4 +1,4 @@
-import { routes } from '@/lib/app/routes';
+import { ROUTES } from '@/lib/constants';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -12,7 +12,7 @@ export default function NavBar() {
         </span>
       </Link>
       <ul className="flex h-full">
-        {Object.values(routes).map((route, index) => (
+        {Object.values(ROUTES).map((route, index) => (
           <li key={index} className="flex h-full">
             <Link
               href={route.href}
