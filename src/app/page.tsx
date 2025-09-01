@@ -1,7 +1,6 @@
-import CardList from '@/components/CardList';
-import FeaturedList from '@/components/FeaturedList';
-import RandomPokemonButton from '@/components/RandomPokemonButton';
-import SearchBar from '@/components/SearchBar';
+import CardList from '@/components/card-list';
+import RandomPokemonButton from '@/components/random-pokemon-button';
+import SearchBar from '@/components/search-bar';
 import { getAllPokemonNames, getRandomPokemon } from '@/lib/pokemonData';
 import { navigateToSearchedPokemon } from '@/lib/search';
 

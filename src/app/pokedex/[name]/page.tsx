@@ -1,4 +1,4 @@
-import PokemonCard from '@/components/PokemonCard';
+import PokemonCard from '@/components/pokemon-card';
 import { fetchPokemonByNameOrId, getAllPokemon } from '@/lib/pokemonData';
 
 export async function generateStaticParams() {

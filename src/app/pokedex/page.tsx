@@ -1,6 +1,6 @@
-import CardList from '@/components/CardList';
-import FilterBar from '@/components/FilterBar';
-import Pagination from '@/components/Pagination';
+import CardList from '@/components/card-list';
+import FilterBar from '@/components/filter-bar';
+import Pagination from '@/components/pagination';
 import { getAllPokemon, getPokemonData } from '@/lib/pokemonData';
 
 export default async function PokedexPage({

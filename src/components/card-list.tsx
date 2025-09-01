@@ -1,6 +1,6 @@
 import { Pokemon } from '@/lib/types';
 import Link from 'next/link';
-import PokemonCard from './PokemonCard';
+import PokemonCard from './pokemon-card';
 import { routes } from '@/lib/routes';
 
 export default function CardList({ pokemonList }: { pokemonList: Pokemon[] }) {

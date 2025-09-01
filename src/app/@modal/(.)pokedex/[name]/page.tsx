@@ -1,5 +1,5 @@
-import { Modal } from '@/components/Modal';
-import PokemonCard from '@/components/PokemonCard';
+import { Modal } from '@/components/modal';
+import PokemonCard from '@/components/pokemon-card';
 import { fetchPokemonByNameOrId } from '@/lib/pokemonData';
 
 export default async function CardModal({

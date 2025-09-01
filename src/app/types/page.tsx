@@ -1,6 +1,6 @@
-import CardList from '@/components/CardList';
-import Pagination from '@/components/Pagination';
-import TypeFilterButton from '@/components/TypeFilterButton';
+import CardList from '@/components/card-list';
+import Pagination from '@/components/pagination';
+import TypeFilterButton from '@/components/type-filter-button';
 import { getAllPokemon, getPokemonData } from '@/lib/pokemonData';
 import { getPokemonTypes } from '@/lib/pokemonTypeData';
 import { GroupResultItem } from '@/lib/types';
