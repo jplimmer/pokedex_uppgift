@@ -30,6 +30,7 @@ export default async function Home() {
       <section className="content-grid full-width bg-white py-8">
         <SearchBar
           searchAction={navigateToSearchedPokemon}
+          placeholder="Search for a Pokémon..."
           allResults={pokemonList}
           className="w-2/3 m-auto"
         />
