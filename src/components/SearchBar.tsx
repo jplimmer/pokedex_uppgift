@@ -5,17 +5,19 @@ import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
+interface SearchBarProps {
+  searchAction: (formData: FormData) => void;
+  allResults?: string[];
+  wait?: number;
+  className?: string;
+}
+
 export default function SearchBar({
   searchAction,
   allResults,
   wait = 600,
   className,
-}: {
-  searchAction: (formData: FormData) => void;
-  allResults?: string[];
-  wait?: number;
-  className?: string;
-}) {
+}: SearchBarProps) {
   const [query, setQuery] = useState<string>('');
   const [matches, setMatches] = useState<string[]>([]);
   const [showList, setShowList] = useState(false);

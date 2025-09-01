@@ -1,4 +1,3 @@
-import { unstable_cache } from 'next/cache';
 import { Pokemon, GroupResultItem, PokemonResultItem } from './types';
 import { getTypeColour } from './pokemonTypeData';
 
@@ -13,19 +12,26 @@ export const getNumberOfPokemon = async () => {
   // return 1025;
 };
 
-export const getAllPokemon = unstable_cache(async () => {
+export const getAllPokemon = async () => {
   const limit = await getNumberOfPokemon();
   const queryString = `?limit=${limit.toString()}`;
   const response = await fetch(pokemonUrl + queryString);
 
   if (response.status !== 200) {
-    return;
+    return [];
   }
 
   const { results }: { results: GroupResultItem[] } = await response.json();
 
   return results;
-});
+};
+
+export const getAllPokemonNames = async () => {
+  const allPokemon = await getAllPokemon();
+  if (!allPokemon) return [];
+
+  return allPokemon.map((p) => p.name);
+};
 
 export const getPokemonData = async (list: GroupResultItem[]) => {
   // Guard limit against excessive API calls
@@ -87,7 +93,7 @@ const extractPokemonData = async (
       id: item.id,
       name: item.name,
       sprites: {
-        primary: item.sprites.front_default,
+        primary: item.sprites.front_default ?? null,
       },
       stats: {
         hp: getStatValue(item, 'hp'),
@@ -148,17 +154,20 @@ export async function fetchPokemonByNameOrId(identifier: string) {
 }
 
 export async function getRandomPokemon(number: number) {
-  const pokemonIds = new Set<string>();
+  const pokemonNames = new Set<string>();
   const pokemonList: Pokemon[] = [];
 
-  const total = await getNumberOfPokemon();
+  const allNames = await getAllPokemonNames();
 
-  while (pokemonIds.size < number) {
+  const total = allNames.length;
+
+  while (pokemonNames.size < number) {
     const randomInt = Math.floor(Math.random() * total) + 1;
+    const randomName = allNames[randomInt];
     // Check page exists before adding to set
-    const res = await fetchPokemonByNameOrId(randomInt.toString());
+    const res = await fetchPokemonByNameOrId(randomName.toString());
     if (res) {
-      pokemonIds.add(randomInt.toString());
+      pokemonNames.add(randomName.toString());
       pokemonList.push(res);
     }
   }

@@ -1,22 +1,26 @@
 import FeaturedList from '@/components/Home/FeaturedList';
-import HomeHeader from '@/components/Home/Header';
+import RandomPokemonButton from '@/components/Home/RandomPokemonButton';
 import SearchBar from '@/components/SearchBar';
-import { getAllPokemon } from '@/lib/pokemonData';
+import { getAllPokemonNames } from '@/lib/pokemonData';
 import { navigateToSearchedPokemon } from '@/lib/search';
 
 export default async function Home() {
-  const allPokemon = await getAllPokemon();
-  let pokemonList: string[] = [];
-  if (allPokemon) {
-    pokemonList = allPokemon.map((p) => p.name);
-  } else {
-    console.warn('Failed to fetch all pokemon');
+  const pokemonList = await getAllPokemonNames();
+  if (!pokemonList) {
+    console.warn('Failed to fetch all pokemon names');
   }
 
   return (
     <>
       <section className="content-grid full-width items-center gap-4 [background-image:linear-gradient(-10deg,_#C97FE4,_#AECDF6)]">
-        <HomeHeader />
+        <h1 className="text-center mt-14 text-8xl font-extrabold text-transparent bg-gradient-to-r from-purple-800 to-blue-800 [background-clip:text]">
+          Gotta catch &apos;em all!
+        </h1>
+        <p className="text-center text-white text-xl">
+          Discover, search and explore the amazing world of Pokémon. Find
+          <br /> your favourite and learn about their stats.
+        </p>
+        <RandomPokemonButton />
       </section>
       <section className="content-grid full-width bg-white py-8">
         <SearchBar
