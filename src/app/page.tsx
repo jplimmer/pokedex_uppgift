@@ -1,14 +1,19 @@
-import FeaturedList from '@/components/Home/FeaturedList';
-import RandomPokemonButton from '@/components/Home/RandomPokemonButton';
-import SearchBar from '@/components/SearchBar';
-import { getAllPokemonNames } from '@/lib/pokemonData';
-import { navigateToSearchedPokemon } from '@/lib/search';
+import CardList from '@/components/card-list';
+import RandomPokemonButton from '@/components/random-pokemon-button';
+import SearchBar from '@/components/search-bar';
+import {
+  getAllPokemonNames,
+  getRandomPokemon,
+} from '@/lib/data/rest-api/pokemon';
+import { navigateToSearchedPokemon } from '@/lib/app/serverActions';
 
 export default async function Home() {
   const pokemonList = await getAllPokemonNames();
   if (!pokemonList) {
     console.warn('Failed to fetch all pokemon names');
   }
+
+  const featuredList = await getRandomPokemon(4);
 
   return (
     <>
@@ -25,13 +30,14 @@ export default async function Home() {
       <section className="content-grid full-width bg-white py-8">
         <SearchBar
           searchAction={navigateToSearchedPokemon}
+          placeholder="Search for a Pokémon..."
           allResults={pokemonList}
           className="w-2/3 m-auto"
         />
       </section>
       <section className="content-grid full-width [background-image:linear-gradient(-10deg,_#f5e6fb,_#eef5fd)] pb-12">
         <h2 className="text-bold text-center text-4xl p-8">Featured Pokémon</h2>
-        <FeaturedList />
+        <CardList pokemonList={featuredList} />
       </section>
     </>
   );

@@ -1,7 +1,8 @@
 import { unstable_cache } from 'next/cache';
-import { GroupResultItem, PokemonType, PokemonTypeResultItem } from './types';
-import { typeColours } from './colours';
-import { getSprite } from './pokemonData';
+import { typeColours } from '../colours';
+import { getSprite } from './pokemon';
+import { GroupResultItem, PokemonTypeResultItem } from './types';
+import { PokemonType } from '@/lib/app/types';
 
 const typeUrl = 'https://pokeapi.co/api/v2/type/';
 

@@ -1,6 +1,6 @@
 import { capitaliseFirstLetter } from '@/utils/utils';
 import Image from 'next/image';
-import { Pokemon } from '@/lib/types';
+import { Pokemon } from '@/lib/app/types';
 
 export default function PokemonCard({
   pokemon,

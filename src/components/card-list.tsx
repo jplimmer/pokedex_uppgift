@@ -1,7 +1,7 @@
-import { Pokemon } from '@/lib/types';
+import { Pokemon } from '@/lib/app/types';
 import Link from 'next/link';
-import PokemonCard from './PokemonCard';
-import { routes } from '@/lib/routes';
+import PokemonCard from './pokemon-card';
+import { routes } from '@/lib/app/routes';
 
 export default function CardList({ pokemonList }: { pokemonList: Pokemon[] }) {
   return (

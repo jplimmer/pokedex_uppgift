@@ -2,7 +2,7 @@
 
 import { redirect } from 'next/navigation';
 import { routes } from './routes';
-import { fetchPokemonByNameOrId } from './pokemonData';
+import { fetchPokemonByNameOrId } from '../data/rest-api/pokemon';
 
 export async function navigateToSearchedPokemon(formData: FormData) {
   const searchTerm = formData.get('search') as string;

@@ -7,6 +7,7 @@ import { useDebouncedCallback } from 'use-debounce';
 
 interface SearchBarProps {
   searchAction: (formData: FormData) => void;
+  placeholder?: string;
   allResults?: string[];
   wait?: number;
   className?: string;
@@ -14,6 +15,7 @@ interface SearchBarProps {
 
 export default function SearchBar({
   searchAction,
+  placeholder,
   allResults,
   wait = 600,
   className,
@@ -124,7 +126,7 @@ export default function SearchBar({
           defaultValue={query}
           onChange={useDebouncedCallback((e) => setQuery(e.target.value), wait)}
           onKeyDown={handleKeyDown}
-          placeholder="Search for a Pokémon..."
+          placeholder={placeholder}
           required
           autoComplete="off"
           className="
@@ -146,18 +148,18 @@ export default function SearchBar({
           bg-white border-1 border-neutral-300 rounded-md
           shadow-lg max-h-60 overflow-y-auto"
         >
-          {matches.map((pokemon, index) => (
+          {matches.map((item, index) => (
             <li
               key={index}
               onMouseEnter={() => setHighlightedIndex(index)}
               onClick={() => {
-                selectMatch(pokemon);
+                selectMatch(item);
               }}
               className={`px-4 rounded-sm border-b border-neutral-100 last:border-b-0 cursor-pointer ${
                 index === highlightedIndex ? 'bg-neutral-600 text-white' : ''
               }`}
             >
-              {formatMatch(pokemon, query)}
+              {formatMatch(item, query)}
             </li>
           ))}
         </ul>

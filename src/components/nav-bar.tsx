@@ -1,4 +1,4 @@
-import { routes } from '@/lib/routes';
+import { routes } from '@/lib/app/routes';
 import Link from 'next/link';
 import Image from 'next/image';
 
