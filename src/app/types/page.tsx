@@ -51,7 +51,7 @@ export default async function TypesPage({
           totalPages={totalPages}
           className="mx-auto text-neutral-500"
         />
-        <ul className="flex flex-wrap gap-4 justify-center justify-items-center">
+        <ul className="grid grid-cols-[repeat(auto-fit,minmax(11ch,1fr))] gap-4 justify-items-center">
           {types.map((type, index) => (
             <li key={index}>
               <TypeFilterButton pokemonType={type} />

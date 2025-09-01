@@ -50,7 +50,7 @@ export default function FilterButton({
           backgroundColor: `${pokemonType.colour}${isActive ? '' : '30'}`,
         }}
       >
-        <span className="text-2xl">
+        <span className="text-xl">
           {capitaliseFirstLetter(pokemonType.name)}
         </span>
         <Image
