@@ -50,12 +50,14 @@ export default function FilterButton({
           backgroundColor: `${pokemonType.colour}${isActive ? '' : '30'}`,
         }}
       >
-        <h3 className="text-2xl">{capitaliseFirstLetter(pokemonType.name)}</h3>
+        <span className="text-2xl">
+          {capitaliseFirstLetter(pokemonType.name)}
+        </span>
         <Image
           src={pokemonType.sprite}
           alt=""
-          width={68}
-          height={68}
+          width={65}
+          height={65}
           style={{
             borderColor: `${pokemonType.colour}${isActive ? '30' : ''}`,
           }}
