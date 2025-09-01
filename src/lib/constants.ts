@@ -19,4 +19,4 @@ export const ROUTES = {
 
 export const ASSET_PATHS = {
   SPRITE_FALLBACK: '/pokeball.svg',
-};
+} as const;

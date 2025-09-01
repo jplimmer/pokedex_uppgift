@@ -1,6 +1,6 @@
 'use client';
 
-import { capitaliseFirstLetter, splitByQuery } from '@/utils/utils';
+import { capitaliseFirstLetter, splitByQuery } from '@/utils/text-utils';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
@@ -116,7 +116,7 @@ export default function SearchBar({
     >
       <form
         action={searchAction}
-        className="flex items-center gap-2 rounded-sm shadow-md drop-shadow-2xl p-2 w-full"
+        className="flex items-center gap-2 rounded-sm shadow-md shadow-neutral-400 p-2 w-full"
       >
         <label htmlFor="search-bar" className="sr-only"></label>
         <input

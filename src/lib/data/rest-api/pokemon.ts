@@ -175,3 +175,10 @@ export async function getRandomPokemon(number: number) {
 
   return pokemonList;
 }
+
+export function getIdfromApiUrl(url: string) {
+  const pathname = new URL(url).pathname;
+  const route = pathname.split('api/v2/')[1];
+  const id = route.split('/')[1]?.replace('/', '');
+  return id;
+}
