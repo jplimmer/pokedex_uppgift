@@ -3,6 +3,8 @@ import {
   fetchPokemonByNameOrId,
   getAllPokemon,
 } from '@/lib/data/rest-api/pokemon';
+import { capitaliseFirstLetter } from '@/utils/utils';
+import { Metadata } from 'next';
 
 export async function generateStaticParams() {
   const pokemonList = await getAllPokemon();
@@ -12,6 +14,26 @@ export async function generateStaticParams() {
     }));
   } else {
     console.warn('Static params could not be generated, getAllPokemon failed');
+  }
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { name: string };
+}): Promise<Metadata> {
+  const { name } = await params;
+  const pokemon = await fetchPokemonByNameOrId(name);
+  if (pokemon) {
+    return {
+      title: `Pokédex: ${capitaliseFirstLetter(pokemon.name)}`,
+      description: `Pokédex entry for ${capitaliseFirstLetter(pokemon.name)}`,
+    };
+  } else {
+    return {
+      title: 'Pokédex',
+      description: '',
+    };
   }
 }
 

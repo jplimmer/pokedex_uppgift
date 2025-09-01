@@ -2,6 +2,12 @@ import CardList from '@/components/card-list';
 import FilterBar from '@/components/filter-bar';
 import Pagination from '@/components/pagination';
 import { getAllPokemon, getPokemonData } from '@/lib/data/rest-api/pokemon';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Pokédex: All',
+  description: 'Search all Pokémon',
+};
 
 export default async function PokedexPage({
   searchParams,

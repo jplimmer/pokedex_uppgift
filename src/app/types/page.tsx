@@ -4,6 +4,12 @@ import TypeFilterButton from '@/components/type-filter-button';
 import { getAllPokemon, getPokemonData } from '@/lib/data/rest-api/pokemon';
 import { getPokemonTypes } from '@/lib/data/rest-api/pokemon-type';
 import { GroupResultItem } from '@/lib/data/rest-api/types';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Pokédex: Types',
+  description: 'Filter Pokémon by type',
+};
 
 export default async function TypesPage({
   searchParams,
