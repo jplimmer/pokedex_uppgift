@@ -1,7 +1,7 @@
 'use client';
 
 import { getRandomPokemon } from '@/lib/data/rest-api/pokemon';
-import { ROUTES } from '@/lib/constants';
+import { ASSET_PATHS, ROUTES } from '@/lib/constants';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
@@ -26,7 +26,7 @@ export default function RandomPokemonButton() {
       className="btn-primary w-1/3 m-auto"
     >
       <Image
-        src="/Dice.svg"
+        src={ASSET_PATHS.DICE}
         width={25}
         height={25}
         alt="Dice"

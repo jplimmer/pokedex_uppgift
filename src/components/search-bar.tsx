@@ -1,5 +1,6 @@
 'use client';
 
+import { ASSET_PATHS } from '@/lib/constants';
 import { capitaliseFirstLetter, splitByQuery } from '@/utils/text-utils';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
@@ -138,7 +139,7 @@ export default function SearchBar({
           type="submit"
           className="flex-shrink-0 py-2 px-4 rounded-md bg-indigo-400 hover:bg-indigo-500 cursor-pointer"
         >
-          <Image src="/Search.svg" alt="" width={16} height={16} />
+          <Image src={ASSET_PATHS.SEARCH} alt="" width={16} height={16} />
         </button>
       </form>
       {showList && (

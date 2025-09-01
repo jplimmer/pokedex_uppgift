@@ -1,6 +1,7 @@
 import { PokemonResultItem } from './types';
 import { getTypeColour } from './pokemon-type';
 import { NamedAPIResource, Pokemon } from '@/lib/types/types';
+import { ASSET_PATHS } from '@/lib/constants';
 
 const pokemonUrl = 'https://pokeapi.co/api/v2/pokemon/';
 
@@ -132,7 +133,7 @@ export const getSprite = async (item: NamedAPIResource) => {
     return sprite;
   } catch (error) {
     console.log(`Error fetching sprite for type "${item.name}":`, error);
-    return '/pokeball.svg';
+    return ASSET_PATHS.SPRITE_FALLBACK;
   }
 };
 
