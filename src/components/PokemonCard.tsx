@@ -24,7 +24,7 @@ export default function PokemonCard({
       <h3 className="text-2xl">{capitaliseFirstLetter(pokemon.name)}</h3>
       <div className="flex flex-col items-center order-first gap-2">
         <Image
-          src={pokemon.sprites.primary}
+          src={pokemon.sprites.primary ?? null}
           alt=""
           width={100}
           height={100}
