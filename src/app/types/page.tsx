@@ -3,7 +3,7 @@ import Pagination from '@/components/pagination';
 import TypeFilterButton from '@/components/type-filter-button';
 import { getAllPokemon, getPokemonData } from '@/lib/data/rest-api/pokemon';
 import { getPokemonTypes } from '@/lib/data/rest-api/pokemon-type';
-import { GroupResultItem } from '@/lib/data/rest-api/types';
+import { NamedAPIResource } from '@/lib/types/types';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -19,7 +19,7 @@ export default async function TypesPage({
   const { type, page, limit } = await searchParams;
   const typeParams = Array.isArray(type) ? type : type ? [type] : [];
 
-  const matchesList: GroupResultItem[] = [];
+  const matchesList: NamedAPIResource[] = [];
 
   const types = await getPokemonTypes();
   if (!types) return;

@@ -1,6 +1,6 @@
-import { GroupResultItem, PokemonResultItem } from './types';
+import { PokemonResultItem } from './types';
 import { getTypeColour } from './pokemon-type';
-import { Pokemon } from '@/lib/app/types';
+import { NamedAPIResource, Pokemon } from '@/lib/types/types';
 
 const pokemonUrl = 'https://pokeapi.co/api/v2/pokemon/';
 
@@ -22,7 +22,7 @@ export const getAllPokemon = async () => {
     return [];
   }
 
-  const { results }: { results: GroupResultItem[] } = await response.json();
+  const { results }: { results: NamedAPIResource[] } = await response.json();
 
   return results;
 };
@@ -34,7 +34,7 @@ export const getAllPokemonNames = async () => {
   return allPokemon.map((p) => p.name);
 };
 
-export const getPokemonData = async (list: GroupResultItem[]) => {
+export const getPokemonData = async (list: NamedAPIResource[]) => {
   // Guard limit against excessive API calls
   const maxQueries = 20;
   if (list.length > maxQueries) {
@@ -122,7 +122,7 @@ const getStatValue = (pokemon: PokemonResultItem, statName: string) => {
   return stat?.base_stat.toString() ?? '-';
 };
 
-export const getSprite = async (item: GroupResultItem) => {
+export const getSprite = async (item: NamedAPIResource) => {
   try {
     const pokemonData: PokemonResultItem = await fetch(item.url).then((res) =>
       res.json()
@@ -132,7 +132,7 @@ export const getSprite = async (item: GroupResultItem) => {
     return sprite;
   } catch (error) {
     console.log(`Error fetching sprite for type "${item.name}":`, error);
-    return null;
+    return '/pokeball.svg';
   }
 };
 

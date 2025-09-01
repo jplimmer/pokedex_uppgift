@@ -1,4 +1,4 @@
-import { TypeColour } from '../app/types';
+import { TypeColour } from '../types/types';
 
 export const typeColours: TypeColour[] = [
   {
