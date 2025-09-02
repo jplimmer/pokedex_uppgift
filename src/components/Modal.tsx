@@ -44,7 +44,8 @@ export function Modal({
         onClick={(e) => e.stopPropagation()}
         onKeyDown={handleKeyDown}
         tabIndex={-1}
-        className={`bg-neutral-50 rounded-lg p-10 overflow-auto ${dialogClassName}`}
+        className={`bg-neutral-50 rounded-lg p-10 overflow-auto focus-visible:outline-0
+           ${dialogClassName}`}
       >
         {children}
       </div>

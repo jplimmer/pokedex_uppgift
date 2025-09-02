@@ -14,7 +14,7 @@ export default async function CardModal({
   if (!pokemon) return;
 
   return (
-    <Modal dialogClassName="min-w-[40ch] [background-image:linear-gradient(-10deg,_#C97FE4,_#AECDF6)]">
+    <Modal dialogClassName="w-[40ch] [background-image:linear-gradient(-10deg,_#C97FE4,_#AECDF6)]">
       <PokemonCard pokemon={pokemon} />
     </Modal>
   );
