@@ -15,6 +15,7 @@ export const getNumberOfPokemon = async () => {
 };
 
 export const getAllPokemon = async () => {
+  console.time('getAllPokemon()');
   const limit = await getNumberOfPokemon();
   const queryString = `?limit=${limit.toString()}`;
   const response = await fetch(pokemonUrl + queryString);
@@ -25,6 +26,7 @@ export const getAllPokemon = async () => {
 
   const { results }: { results: NamedAPIResource[] } = await response.json();
 
+  console.timeEnd('getAllPokemon()');
   return results;
 };
 
@@ -36,6 +38,7 @@ export const getAllPokemonNames = async () => {
 };
 
 export const getPokemonData = async (list: NamedAPIResource[]) => {
+  console.time('getPokemonData() - TOTAL');
   // Guard limit against excessive API calls
   const maxQueries = 20;
   if (list.length > maxQueries) {
@@ -46,8 +49,13 @@ export const getPokemonData = async (list: NamedAPIResource[]) => {
   }
 
   try {
-    const fetchPromises = list.map((p) => fetch(p.url).catch(() => null));
+    // console.time('getPokemonData - fetchPromises');
+    const fetchPromises = list.map((p) =>
+      fetch(p.url, { cache: 'force-cache' }).catch(() => null)
+    );
     const responses = await Promise.all(fetchPromises);
+    // console.timeEnd('getPokemonData - fetchPromises');
+    // console.time('getPokemonData - filter successful');
     const successfulResponses = responses.filter(
       (res): res is Response => !!res && res?.ok
     );
@@ -55,14 +63,18 @@ export const getPokemonData = async (list: NamedAPIResource[]) => {
     if (successfulResponses.length < responses.length) {
       console.log('Some responses failed.');
     }
+    // console.timeEnd('getPokemonData - filter successful');
 
+    // console.time('getPokemonData - response to json');
     const data: PokemonResultItem[] = await Promise.all(
       successfulResponses.map((res) => res.json())
     );
+    // console.timeEnd('getPokemonData - response to json');
 
     const allPokemon: Pokemon[] = [];
     const ignoredPokemon: string[] = [];
 
+    // console.time('getPokemonData - extractPokemonData');
     for (const item of data) {
       try {
         const pokemon = await extractPokemonData(item);
@@ -72,6 +84,7 @@ export const getPokemonData = async (list: NamedAPIResource[]) => {
         continue;
       }
     }
+    // console.timeEnd('getPokemonData - extractPokemonData');
 
     if (ignoredPokemon.length !== 0) {
       console.warn(
@@ -83,6 +96,8 @@ export const getPokemonData = async (list: NamedAPIResource[]) => {
   } catch (error) {
     console.log('Error getting Pokémon data:', error);
     return [];
+  } finally {
+    console.timeEnd('getPokemonData() - TOTAL');
   }
 };
 

@@ -11,11 +11,11 @@ const typeUrl = 'https://pokeapi.co/api/v2/type/';
 export const getPokemonTypes = unstable_cache(
   async () => {
     try {
-      console.time('get pokémon types');
+      console.time('getPokemonTypes() - TOTAL');
       const typesList = await fetchAllTypes();
       if (!typesList) throw new Error('Failed to fetch all Types');
 
-      console.time('fetch jsons');
+      console.time('getPokemonTypes - fetch jsons');
       const fetchPromises = typesList.map((type) =>
         fetch(type.url).catch(() => null)
       );
@@ -30,7 +30,7 @@ export const getPokemonTypes = unstable_cache(
       const data: PokemonTypeResultItem[] = await Promise.all(
         successfulResponses.map((res) => res.json())
       );
-      console.timeEnd('fetch jsons');
+      console.timeEnd('getPokemonTypes - fetch jsons');
 
       const allTypes: PokemonType[] = [];
       const ignoredTypes: string[] = [];
@@ -56,7 +56,7 @@ export const getPokemonTypes = unstable_cache(
       console.log('Error getting Types data:', error);
       return null;
     } finally {
-      console.timeEnd('get pokémon types');
+      console.timeEnd('getPokemonTypes() - TOTAL');
     }
   },
   ['pokemon-types-cache', getTodayKey()],
@@ -64,7 +64,7 @@ export const getPokemonTypes = unstable_cache(
 );
 
 const fetchAllTypes = async () => {
-  console.time('fetch all types');
+  console.time('fetchAllTypes()');
   // Add high limit to ensure all types fetched
   const queryString = '?limit=100';
   const response = await fetch(typeUrl + queryString);
@@ -75,14 +75,13 @@ const fetchAllTypes = async () => {
 
   const { results }: { results: NamedAPIResource[] } = await response.json();
 
-  console.timeEnd('fetch all types');
+  console.timeEnd('fetchAllTypes()');
   return results;
 };
 
 const extractTypeData = async (
   item: PokemonTypeResultItem
 ): Promise<PokemonType> => {
-  console.time(`${item.name}`);
   try {
     const pokemonList: NamedAPIResource[] = item.pokemon.map((p) => p.pokemon);
     if (pokemonList.length === 0) throw new Error('No pokemon found');
@@ -109,8 +108,6 @@ const extractTypeData = async (
     throw new Error(
       `Error extracting type data for type "${item.name}": ${error}`
     );
-  } finally {
-    console.timeEnd(`${item.name}`);
   }
 };
 
