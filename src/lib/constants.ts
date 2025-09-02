@@ -22,6 +22,7 @@ export const ASSET_PATHS = {
   FACEBOOK: '/Facebook.svg',
   INSTAGRAM: '/Instagram.svg',
   LOGO: '/Logo.png',
+  NOT_FOUND: '/nibble.webp',
   SEARCH: '/Search.svg',
   SPRITE_FALLBACK: '/pokeball.svg',
 } as const;
