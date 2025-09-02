@@ -1,7 +1,7 @@
 'use client';
 
 import { PokemonType } from '@/lib/types/types';
-import { capitaliseFirstLetter } from '@/utils/text-utils';
+import { capitaliseFirstLetter } from '@/utils/strings';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 

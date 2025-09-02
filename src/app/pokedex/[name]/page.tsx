@@ -3,7 +3,7 @@ import {
   fetchPokemonByNameOrId,
   getAllPokemon,
 } from '@/lib/data/rest-api/pokemon';
-import { capitaliseFirstLetter } from '@/utils/text-utils';
+import { capitaliseFirstLetter } from '@/utils/strings';
 import { Metadata } from 'next';
 
 export async function generateStaticParams() {
