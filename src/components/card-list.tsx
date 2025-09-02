@@ -1,17 +1,22 @@
-import { Pokemon } from '@/lib/app/types';
+import { Pokemon } from '@/lib/types/types';
 import Link from 'next/link';
 import PokemonCard from './pokemon-card';
-import { routes } from '@/lib/app/routes';
+import { ROUTES } from '@/lib/constants';
 
 export default function CardList({ pokemonList }: { pokemonList: Pokemon[] }) {
   return (
-    <ul className="grid grid-cols-[repeat(auto-fit,minmax(25ch,1fr))] gap-4">
+    <ul className="grid grid-cols-[repeat(auto-fit,28ch)] gap-4">
       {pokemonList.map(
         (p, i) =>
           p.id && (
-            <li key={i} className="w-full justify-items-center">
-              <Link href={`${routes.pokedex.href}/${p.name}`} scroll={false}>
-                <PokemonCard pokemon={p} />
+            // <li key={i} className="w-full justify-items-center">
+            <li key={i} className={`grid grid-rows-subgrid row-span-4`}>
+              <Link
+                href={`${ROUTES.POKEDEX.href}/${p.name}`}
+                scroll={false}
+                className="contents"
+              >
+                <PokemonCard pokemon={p} inSubgrid={true} />
               </Link>
             </li>
           )
