@@ -18,10 +18,10 @@ export const metadata: Metadata = {
 export default async function TypesPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   const { type, page, limit } = await searchParams;
-  const typeParams = Array.isArray(type) ? type : type ? [type] : [];
+  const typeParams = type ? (Array.isArray(type) ? type : [type]) : [];
 
   let matchesList: NamedAPIResource[] = [];
 
