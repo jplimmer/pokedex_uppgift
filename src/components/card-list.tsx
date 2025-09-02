@@ -5,7 +5,7 @@ import { ROUTES } from '@/lib/constants';
 
 export default function CardList({ pokemonList }: { pokemonList: Pokemon[] }) {
   return (
-    <ul className="grid grid-cols-[repeat(auto-fit,28ch)] gap-4">
+    <ul className="grid grid-cols-[repeat(auto-fit,28ch)] gap-4 justify-center">
       {pokemonList.map(
         (p, i) =>
           p.id && (
