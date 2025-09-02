@@ -42,10 +42,12 @@ export default function FilterButton({
       type="button"
       onClick={handleFilter}
       aria-pressed={isActive}
-      className="cursor-pointer rounded-4xl hover:bg-neutral-300"
+      className={`
+        cursor-pointer rounded-4xl hover:bg-neutral-300 transition
+         ${isActive ? 'ring-4 ring-offset-2 ring-amber-500' : ''}`}
     >
       <div
-        className="flex flex-col items-center gap-2 border border-neutral-500 rounded-4xl py-4 px-2 bg-transparent"
+        className="flex flex-col items-center gap-2 border border-neutral-500 rounded-4xl py-4 px-2 bg-transparent transition"
         style={{
           backgroundColor: `${pokemonType.colour}${isActive ? '' : '30'}`,
         }}
