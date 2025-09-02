@@ -21,6 +21,7 @@ export const ASSET_PATHS = {
   DICE: '/Dice.svg',
   FACEBOOK: '/Facebook.svg',
   INSTAGRAM: '/Instagram.svg',
+  LOADING: '/pokeball.svg',
   LOGO: '/Logo.png',
   NOT_FOUND: '/nibble.webp',
   SEARCH: '/Search.svg',
