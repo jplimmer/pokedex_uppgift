@@ -1,6 +1,6 @@
 'use client';
 
-import { generatePagination } from '@/utils/utils';
+import { generatePagination } from '@/utils/pagination';
 import { CircleArrowLeft, CircleArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';

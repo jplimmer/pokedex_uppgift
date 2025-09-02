@@ -38,7 +38,7 @@ export default async function PokedexPage({
     <div className="content-grid full-width [background-image:linear-gradient(-10deg,_#f5e6fb,_#eef5fd)] py-8">
       <div className="grid grid-rows-[auto_auto_1fr] space-y-8">
         <h2 className="text-4xl text-center">Pokédex</h2>
-        <div className="flex justify-around items-center text-neutral-500">
+        <div className="flex flex-wrap gap-4 justify-around items-center text-neutral-500">
           <FilterBar placeholder="Search Pokémon..." wait={400} />
           <Pagination totalPages={totalPages} />
         </div>

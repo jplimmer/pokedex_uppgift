@@ -1,9 +1,13 @@
 import CardList from '@/components/card-list';
 import Pagination from '@/components/pagination';
 import TypeFilterButton from '@/components/type-filter-button';
-import { getAllPokemon, getPokemonData } from '@/lib/data/rest-api/pokemon';
+import {
+  getAllPokemon,
+  getIdfromApiUrl,
+  getPokemonData,
+} from '@/lib/data/rest-api/pokemon';
 import { getPokemonTypes } from '@/lib/data/rest-api/pokemon-type';
-import { GroupResultItem } from '@/lib/data/rest-api/types';
+import { NamedAPIResource } from '@/lib/types/types';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -19,18 +23,33 @@ export default async function TypesPage({
   const { type, page, limit } = await searchParams;
   const typeParams = Array.isArray(type) ? type : type ? [type] : [];
 
-  const matchesList: GroupResultItem[] = [];
+  let matchesList: NamedAPIResource[] = [];
 
   const types = await getPokemonTypes();
   if (!types) return;
 
   if (typeParams.length !== 0) {
-    // Get all Pokémon matching type parameters
+    const seenUrls = new Set();
+    const combinedList: NamedAPIResource[] = [];
+
     for (const t of typeParams) {
+      // Get all Pokémon from each type
       const typeIndex = types.findIndex((type) => type.name === t);
       if (typeIndex !== -1 && types[typeIndex].pokemon) {
-        matchesList.push(...types[typeIndex].pokemon);
+        // Add to matchesList if not already there
+        types[typeIndex].pokemon.forEach((item) => {
+          if (!seenUrls.has(item.url)) {
+            seenUrls.add(item.url);
+            combinedList.push(item);
+          }
+        });
       }
+      // Sort list by ID
+      matchesList = combinedList.sort((a, b) => {
+        const aId = getIdfromApiUrl(a.url);
+        const bId = getIdfromApiUrl(b.url);
+        return parseInt(aId) - parseInt(bId);
+      });
     }
   } else {
     // Get all Pokémon if no type filter specified

@@ -1,7 +1,4 @@
-export interface GroupResultItem {
-  name: string;
-  url: string;
-}
+import { NamedAPIResource } from '@/lib/types/types';
 
 export interface Stat {
   base_stat: number;
@@ -19,7 +16,7 @@ export type PokemonResultItem = {
   stats: Stat[];
   types: {
     slot: number;
-    type: GroupResultItem;
+    type: NamedAPIResource;
   }[];
 };
 
@@ -27,7 +24,7 @@ export type PokemonTypeResultItem = {
   id: number;
   name: string;
   pokemon: {
-    pokemon: GroupResultItem;
+    pokemon: NamedAPIResource;
     slot: number;
   }[];
 };

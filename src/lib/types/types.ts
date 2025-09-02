@@ -1,4 +1,7 @@
-import { GroupResultItem } from '../data/rest-api/types';
+export interface NamedAPIResource {
+  name: string;
+  url: string;
+}
 
 export interface Pokemon {
   id: number;
@@ -27,6 +30,6 @@ export interface TypeColour {
 
 export interface PokemonType extends TypeColour {
   id: number;
-  pokemon: GroupResultItem[];
+  pokemon: NamedAPIResource[];
   sprite: string;
 }

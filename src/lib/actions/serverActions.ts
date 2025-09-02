@@ -1,7 +1,7 @@
 'use server';
 
 import { redirect } from 'next/navigation';
-import { routes } from './routes';
+import { ROUTES } from '../constants';
 import { fetchPokemonByNameOrId } from '../data/rest-api/pokemon';
 
 export async function navigateToSearchedPokemon(formData: FormData) {
@@ -11,5 +11,5 @@ export async function navigateToSearchedPokemon(formData: FormData) {
   const pokemon = await fetchPokemonByNameOrId(searchTerm);
   if (!pokemon) return;
 
-  redirect(`${routes.pokedex.href}/${pokemon.name}`);
+  redirect(`${ROUTES.POKEDEX.href}/${pokemon.name}`);
 }

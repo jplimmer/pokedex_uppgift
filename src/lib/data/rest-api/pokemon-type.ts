@@ -1,8 +1,8 @@
 import { unstable_cache } from 'next/cache';
 import { typeColours } from '../colours';
 import { getSprite } from './pokemon';
-import { GroupResultItem, PokemonTypeResultItem } from './types';
-import { PokemonType } from '@/lib/app/types';
+import { PokemonTypeResultItem } from './types';
+import { NamedAPIResource, PokemonType } from '@/lib/types/types';
 
 const typeUrl = 'https://pokeapi.co/api/v2/type/';
 
@@ -61,7 +61,7 @@ const fetchAllTypes = async () => {
     return;
   }
 
-  const { results }: { results: GroupResultItem[] } = await response.json();
+  const { results }: { results: NamedAPIResource[] } = await response.json();
 
   return results;
 };
@@ -70,7 +70,7 @@ const extractTypeData = async (
   item: PokemonTypeResultItem
 ): Promise<PokemonType> => {
   try {
-    const pokemonList: GroupResultItem[] = item.pokemon.map((p) => p.pokemon);
+    const pokemonList: NamedAPIResource[] = item.pokemon.map((p) => p.pokemon);
 
     const spritePokemon =
       item.pokemon.filter((p) => p.slot === 1)[1]?.pokemon ??
