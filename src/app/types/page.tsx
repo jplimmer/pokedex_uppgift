@@ -44,13 +44,13 @@ export default async function TypesPage({
           }
         });
       }
-      // Sort list by ID
-      matchesList = combinedList.sort((a, b) => {
-        const aId = getIdfromApiUrl(a.url);
-        const bId = getIdfromApiUrl(b.url);
-        return parseInt(aId) - parseInt(bId);
-      });
     }
+    // Sort list by ID
+    matchesList = combinedList.sort((a, b) => {
+      const aId = getIdfromApiUrl(a.url);
+      const bId = getIdfromApiUrl(b.url);
+      return parseInt(aId) - parseInt(bId);
+    });
   } else {
     // Get all Pokémon if no type filter specified
     const allPokemon = await getAllPokemon();
