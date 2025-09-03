@@ -1,6 +1,11 @@
 import { PokemonResultItem } from './types';
 import { getTypeColour } from './pokemon-type';
-import { NamedAPIResource, Pokemon, Result } from '@/lib/types/types';
+import {
+  NamedAPIResource,
+  Pokemon,
+  PokemonPromise,
+  Result,
+} from '@/lib/types/types';
 import { ASSET_PATHS } from '@/lib/constants';
 
 const pokemonUrl = 'https://pokeapi.co/api/v2/pokemon/';
@@ -253,6 +258,13 @@ export const getRandomPokemonNames = async (
     pokemonSet.add(randomName.toString());
   }
   return { success: true, data: [...pokemonSet] };
+};
+
+export const createPokemonPromises = (names: string[]): PokemonPromise[] => {
+  return names.map((name) => ({
+    name: name,
+    promise: fetchPokemonByNameOrId(name),
+  }));
 };
 
 export const getIdfromApiUrl = (url: string) => {

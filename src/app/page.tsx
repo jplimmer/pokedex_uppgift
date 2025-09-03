@@ -2,18 +2,29 @@ import CardList from '@/components/card-list';
 import RandomPokemonButton from '@/components/random-pokemon-button';
 import SearchBar from '@/components/search-bar';
 import {
+  createPokemonPromises,
   getAllPokemonNames,
-  getRandomPokemon,
+  getRandomPokemonNames,
 } from '@/lib/data/rest-api/pokemon';
 import { navigateToSearchedPokemon } from '@/lib/actions/serverActions';
 
 export default async function Home() {
-  const pokemonList = await getAllPokemonNames();
-  if (!pokemonList) {
-    console.warn('Failed to fetch all pokemon names');
+  // Get list of results for SearchBar
+  let pokemonList: string[] | undefined = undefined;
+  const pokemonListResult = await getAllPokemonNames();
+  if (pokemonListResult.success) {
+    pokemonList = pokemonListResult.data;
   }
 
-  const featuredList = await getRandomPokemon(4);
+  // Get PokemonPromises for FeaturedList, with fallback list
+  let featuredPokemon = ['pikachu', 'venasaur', 'charizard', 'blastoise'];
+
+  const randomResult = await getRandomPokemonNames(4);
+  if (randomResult.success) {
+    featuredPokemon = randomResult.data;
+  }
+
+  const featuredPromises = createPokemonPromises(featuredPokemon);
 
   return (
     <>
@@ -37,7 +48,7 @@ export default async function Home() {
       </section>
       <section className="content-grid full-width [background-image:linear-gradient(-10deg,_#f5e6fb,_#eef5fd)] pb-12">
         <h2 className="text-bold text-center text-4xl p-8">Featured Pokémon</h2>
-        <CardList pokemonList={featuredList} />
+        <CardList pokemonPromises={featuredPromises} />
       </section>
     </>
   );

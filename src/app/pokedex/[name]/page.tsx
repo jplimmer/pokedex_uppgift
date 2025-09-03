@@ -1,5 +1,6 @@
 import PokemonCard from '@/components/pokemon-card';
 import {
+  createPokemonPromises,
   fetchPokemonByNameOrId,
   getAllPokemonNames,
 } from '@/lib/data/rest-api/pokemon';
@@ -11,9 +12,14 @@ import { notFound } from 'next/navigation';
 export const revalidate = 84600;
 
 export async function generateStaticParams() {
-  const pokemonList = await getAllPokemonNames();
-  // Pre-generate Gen 1 Pokémon at build time
-  return pokemonList.slice(0, 151).map((p) => ({ name: p }));
+  const allPokemonResult = await getAllPokemonNames();
+  if (allPokemonResult.success) {
+    // Pre-generate Gen 1 Pokémon at build time
+    return allPokemonResult.data.slice(0, 151).map((p) => ({ name: p }));
+  } else {
+    console.warn('Pokémon names not found, no dynamic pages pre-rendered');
+    return [];
+  }
 }
 
 export async function generateMetadata({
@@ -22,11 +28,11 @@ export async function generateMetadata({
   params: Promise<{ name: string }>;
 }): Promise<Metadata> {
   const { name } = await params;
-  const pokemon = await fetchPokemonByNameOrId(name);
-  if (pokemon) {
+  const pokemonResult = await fetchPokemonByNameOrId(name);
+  if (pokemonResult.success) {
     return {
-      title: `Pokédex: ${capitaliseFirstLetter(pokemon.name)}`,
-      description: `Pokédex entry for ${capitaliseFirstLetter(pokemon.name)}`,
+      title: `Pokédex: ${capitaliseFirstLetter(pokemonResult.data.name)}`,
+      description: `Pokédex entry for ${capitaliseFirstLetter(pokemonResult.data.name)}`,
     };
   } else {
     return {
@@ -42,18 +48,20 @@ export default async function PokedexResult({
   params: Promise<{ name: string }>;
 }) {
   const { name } = await params;
-  const allPokemon = await getAllPokemonNames();
+  const allPokemonResult = await getAllPokemonNames();
+  if (!allPokemonResult.success) return; // FIX
 
-  const match = allPokemon.find((p) => p.toLowerCase() === name.toLowerCase());
+  const match = allPokemonResult.data.find(
+    (p) => p.toLowerCase() === name.toLowerCase()
+  );
   if (!match) notFound();
 
-  const pokemon = await fetchPokemonByNameOrId(name);
-  if (!pokemon) notFound();
+  const pokemonPromise = createPokemonPromises([match])[0];
 
   return (
     <div className="content-grid full-width justify-items-center items-center [background-image:linear-gradient(-10deg,_#f5e6fb,_#eef5fd)]">
       <div className="w-[25ch]">
-        <PokemonCard pokemon={pokemon} />
+        <PokemonCard pokemonPromise={pokemonPromise.promise} />
       </div>
     </div>
   );

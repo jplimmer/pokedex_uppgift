@@ -2,9 +2,9 @@ import CardList from '@/components/card-list';
 import Pagination from '@/components/pagination';
 import TypeFilterButton from '@/components/type-filter-button';
 import {
-  getAllPokemon,
+  createPokemonPromises,
+  getAllPokemonNames,
   getIdfromApiUrl,
-  getPokemonData,
 } from '@/lib/data/rest-api/pokemon';
 import { getPokemonTypes } from '@/lib/data/rest-api/pokemon-type';
 import { NamedAPIResource } from '@/lib/types/types';
@@ -23,12 +23,14 @@ export default async function TypesPage({
   const { type, page, limit } = await searchParams;
   const typeParams = type ? (Array.isArray(type) ? type : [type]) : [];
 
-  let matchesList: NamedAPIResource[] = [];
+  const matches: string[] = [];
 
-  const types = await getPokemonTypes();
-  if (!types) return;
+  const typesResult = await getPokemonTypes();
+  if (!typesResult.success) return;
+  const types = typesResult.data;
 
   if (typeParams.length !== 0) {
+    // Get combined list of pokemon for all selected types
     const seenUrls = new Set();
     const combinedList: NamedAPIResource[] = [];
 
@@ -46,27 +48,27 @@ export default async function TypesPage({
       }
     }
     // Sort list by ID
-    matchesList = combinedList.sort((a, b) => {
+    const sortedList = combinedList.sort((a, b) => {
       const aId = getIdfromApiUrl(a.url);
       const bId = getIdfromApiUrl(b.url);
       return parseInt(aId) - parseInt(bId);
     });
+    matches.push(...sortedList.map((p) => p.name));
   } else {
     // Get all Pokémon if no type filter specified
-    const allPokemon = await getAllPokemon();
-    if (!allPokemon) return;
-    matchesList.push(...allPokemon);
+    const allPokemonResult = await getAllPokemonNames();
+    if (!allPokemonResult.success) return; // FIX
+    matches.push(...allPokemonResult.data);
   }
 
   // Limit data querying and display with pagination
   const currentPage = Number(page) || 1;
   const pageLimit = Number(limit) || 20;
   const offset = (currentPage - 1) * pageLimit;
-  const totalPages = Math.ceil(matchesList.length / pageLimit);
+  const totalPages = Math.ceil(matches.length / pageLimit);
 
-  const limitedList = matchesList.slice(offset, offset + pageLimit);
-
-  const matchesData = await getPokemonData(limitedList);
+  const firstPageList = matches.slice(offset, offset + pageLimit);
+  const firstPagePromises = createPokemonPromises(firstPageList);
 
   return (
     <div className="content-grid full-width [background-image:linear-gradient(-10deg,_#f5e6fb,_#eef5fd)] py-8">
@@ -83,7 +85,7 @@ export default async function TypesPage({
             </li>
           ))}
         </ul>
-        <CardList pokemonList={matchesData} />
+        <CardList pokemonPromises={firstPagePromises} />
       </div>
     </div>
   );

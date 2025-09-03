@@ -1,5 +1,9 @@
 import LoadingSpinner from '@/components/loading/loading-spinner';
 
 export default function Loading() {
-  return <LoadingSpinner />;
+  return (
+    <div className="content-grid full-width bg-neutral-100">
+      <LoadingSpinner />
+    </div>
+  );
 }

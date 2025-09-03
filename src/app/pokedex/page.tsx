@@ -1,7 +1,10 @@
 import CardList from '@/components/card-list';
 import FilterBar from '@/components/filter-bar';
 import Pagination from '@/components/pagination';
-import { getAllPokemon, getPokemonData } from '@/lib/data/rest-api/pokemon';
+import {
+  createPokemonPromises,
+  getAllPokemonNames,
+} from '@/lib/data/rest-api/pokemon';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -17,11 +20,11 @@ export default async function PokedexPage({
   const { query = '', limit, page } = await searchParams;
 
   // Query all Pokemon
-  const pokemonList = await getAllPokemon();
-  if (!pokemonList) return;
+  const allPokemonResult = await getAllPokemonNames();
+  if (!allPokemonResult.success) return; // FIX
 
-  const matchesList = pokemonList.filter((p) =>
-    p.name.toLowerCase().includes(query.toLowerCase())
+  const matchesList = allPokemonResult.data.filter((p) =>
+    p.toLowerCase().includes(query.toLowerCase())
   );
 
   // Limit data querying and display with pagination
@@ -30,9 +33,8 @@ export default async function PokedexPage({
   const offset = (currentPage - 1) * pageLimit;
   const totalPages = Math.ceil(matchesList.length / pageLimit);
 
-  const limitedList = matchesList.slice(offset, offset + pageLimit);
-
-  const matchesData = await getPokemonData(limitedList);
+  const firstPageList = matchesList.slice(offset, offset + pageLimit);
+  const firstPagePromises = createPokemonPromises(firstPageList);
 
   return (
     <div className="content-grid full-width [background-image:linear-gradient(-10deg,_#f5e6fb,_#eef5fd)] py-8">
@@ -42,7 +44,7 @@ export default async function PokedexPage({
           <FilterBar placeholder="Search Pokémon..." wait={400} />
           <Pagination totalPages={totalPages} />
         </div>
-        <CardList pokemonList={matchesData} />
+        <CardList pokemonPromises={firstPagePromises} />
       </div>
     </div>
   );
