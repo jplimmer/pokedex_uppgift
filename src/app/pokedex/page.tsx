@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default async function PokedexPage({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | undefined };
+  searchParams: Promise<{ [key: string]: string | undefined }>;
 }) {
   const { query = '', limit, page } = await searchParams;
 
