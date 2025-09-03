@@ -1,101 +1,148 @@
 import { PokemonResultItem } from './types';
 import { getTypeColour } from './pokemon-type';
-import { NamedAPIResource, Pokemon } from '@/lib/types/types';
+import { NamedAPIResource, Pokemon, Result } from '@/lib/types/types';
 import { ASSET_PATHS } from '@/lib/constants';
 
 const pokemonUrl = 'https://pokeapi.co/api/v2/pokemon/';
 
-export const getNumberOfPokemon = async () => {
-  const { count }: { count: number } = await fetch(pokemonUrl).then((res) =>
-    res.json()
-  );
-  return count;
-  // Hard-coded due to data-quality in API
-  // return 1025;
-};
-
-export const getAllPokemon = async () => {
-  console.time('getAllPokemon()');
-  const limit = await getNumberOfPokemon();
-  const queryString = `?limit=${limit.toString()}`;
-  const response = await fetch(pokemonUrl + queryString);
-
-  if (response.status !== 200) {
-    return [];
+export const getNumberOfPokemon = async (): Promise<Result<number, string>> => {
+  try {
+    const response = await fetch(pokemonUrl);
+    if (response.status !== 200) {
+      return {
+        success: false,
+        error: `HTTP error for ${pokemonUrl}: ${response.status}`,
+      };
+    }
+    const { count }: { count: number } = await response.json();
+    return { success: true, data: count };
+  } catch (error) {
+    const errorMsg = `Failed to fetch number of Pokémon: ${error instanceof Error ? error.message : 'Unknown error'}`;
+    console.error(errorMsg);
+    return { success: false, error: errorMsg };
   }
-
-  const { results }: { results: NamedAPIResource[] } = await response.json();
-
-  console.timeEnd('getAllPokemon()');
-  return results;
 };
 
-export const getAllPokemonNames = async () => {
-  const allPokemon = await getAllPokemon();
-  if (!allPokemon) return [];
+export const getAllPokemon = async (): Promise<
+  Result<NamedAPIResource[], string>
+> => {
+  console.time('getAllPokemon()');
 
-  return allPokemon.map((p) => p.name);
+  try {
+    const limitResult = await getNumberOfPokemon();
+    if (!limitResult.success) {
+      return { success: false, error: limitResult.error };
+    }
+
+    const queryString = `${pokemonUrl}?limit=${limitResult.data.toString()}`;
+    const response = await fetch(queryString);
+
+    if (response.status !== 200) {
+      return {
+        success: false,
+        error: `HTTP error for ${queryString}: ${response.status}`,
+      };
+    }
+
+    const { results }: { results: NamedAPIResource[] } = await response.json();
+
+    return { success: true, data: results };
+  } catch (error) {
+    const errorMsg = `Failed to fetch all Pokémon: ${error instanceof Error ? error.message : 'Unknown error'}`;
+    console.error(errorMsg);
+    return { success: false, error: errorMsg };
+  } finally {
+    console.timeEnd('getAllPokemon()');
+  }
 };
 
-export const getPokemonData = async (list: NamedAPIResource[]) => {
+export const getAllPokemonNames = async (): Promise<
+  Result<string[], string>
+> => {
+  const allPokemonResult = await getAllPokemon();
+  if (!allPokemonResult.success)
+    return {
+      success: false,
+      error: allPokemonResult.error,
+    };
+
+  const names = allPokemonResult.data.map((p) => p.name);
+  return { success: true, data: names };
+};
+
+export const getPokemonData = async (
+  list: NamedAPIResource[]
+): Promise<Result<Pokemon[], string>> => {
   console.time('getPokemonData() - TOTAL');
+
   // Guard limit against excessive API calls
   const maxQueries = 20;
   if (list.length > maxQueries) {
-    console.error(
-      `Too many Pokémon (${list.length}) - a maximum of ${maxQueries} can be processed`
-    );
-    return [];
+    const errorMsg = `Too many Pokémon (${list.length}) - a maximum of ${maxQueries} can be processed`;
+    console.error(errorMsg);
+    return { success: false, error: errorMsg };
   }
 
   try {
+    // Fetch data for all Pokémon in list
     // console.time('getPokemonData - fetchPromises');
     const fetchPromises = list.map((p) =>
       fetch(p.url, { cache: 'force-cache' }).catch(() => null)
     );
     const responses = await Promise.all(fetchPromises);
     // console.timeEnd('getPokemonData - fetchPromises');
+
     // console.time('getPokemonData - filter successful');
     const successfulResponses = responses.filter(
       (res): res is Response => !!res && res?.ok
     );
 
     if (successfulResponses.length < responses.length) {
-      console.log('Some responses failed.');
-    }
-    // console.timeEnd('getPokemonData - filter successful');
-
-    // console.time('getPokemonData - response to json');
-    const data: PokemonResultItem[] = await Promise.all(
-      successfulResponses.map((res) => res.json())
-    );
-    // console.timeEnd('getPokemonData - response to json');
-
-    const allPokemon: Pokemon[] = [];
-    const ignoredPokemon: string[] = [];
-
-    // console.time('getPokemonData - extractPokemonData');
-    for (const item of data) {
-      try {
-        const pokemon = await extractPokemonData(item);
-        allPokemon.push(pokemon);
-      } catch {
-        ignoredPokemon.push(item.name);
-        continue;
-      }
-    }
-    // console.timeEnd('getPokemonData - extractPokemonData');
-
-    if (ignoredPokemon.length !== 0) {
-      console.warn(
-        `The following Pokémon could not be processed: ${ignoredPokemon}`
+      console.log(
+        `${responses.length - successfulResponses.length} requests failed.`
       );
     }
 
-    return allPokemon;
+    if (successfulResponses.length === 0) {
+      return { success: false, error: 'All Pokémon data requests failed' };
+    }
+    // console.timeEnd('getPokemonData - filter successful');
+
+    // Parse responses to JSON
+    // console.time('getPokemonData - parse JSONs');
+    const data: PokemonResultItem[] = await Promise.all(
+      successfulResponses.map((res) => res.json())
+    );
+    // console.timeEnd('getPokemonData - parse JSONs');
+
+    // Extract required Pokémon data
+    // console.time('getPokemonData - extractPokemonData');
+    const allPokemon: Pokemon[] = [];
+    const ignoredPokemon: string[] = [];
+
+    for (const item of data) {
+      const pokemonResult = await extractPokemonData(item);
+
+      if (pokemonResult.success) {
+        allPokemon.push(pokemonResult.data);
+      } else {
+        ignoredPokemon.push(item.name);
+        console.debug(`Failed to process ${item.name}: ${pokemonResult.error}`);
+      }
+    }
+
+    if (ignoredPokemon.length > 0) {
+      console.warn(
+        `The following Pokémon could not be processed: ${ignoredPokemon.join(', ')}`
+      );
+    }
+    // console.timeEnd('getPokemonData - extractPokemonData');
+
+    return { success: true, data: allPokemon };
   } catch (error) {
-    console.log('Error getting Pokémon data:', error);
-    return [];
+    const errorMsg = `Error fetching Pokémon data: ${error instanceof Error ? error.message : 'Unknown error'}`;
+    console.error(errorMsg);
+    return { success: false, error: errorMsg };
   } finally {
     console.timeEnd('getPokemonData() - TOTAL');
   }
@@ -103,10 +150,11 @@ export const getPokemonData = async (list: NamedAPIResource[]) => {
 
 const extractPokemonData = async (
   item: PokemonResultItem
-): Promise<Pokemon> => {
-  const primaryTypeName = item.types[0].type.name;
+): Promise<Result<Pokemon, string>> => {
   try {
-    return {
+    const primaryTypeName = item.types[0]?.type.name ?? 'unknown';
+
+    const pokemon: Pokemon = {
       id: item.id,
       name: item.name,
       sprites: {
@@ -126,8 +174,13 @@ const extractPokemonData = async (
         colour: getTypeColour(t.type.name),
       })),
     };
+    return { success: true, data: pokemon };
   } catch (error) {
-    throw new Error(`Error extracting data for "${item.name}": ${error}`);
+    const errorMsg = error instanceof Error ? error.message : 'Unknown error';
+    return {
+      success: false,
+      error: `Error extracting data for "${item.name}": ${errorMsg}`,
+    };
   }
 };
 
@@ -152,49 +205,59 @@ export const getSprite = async (item: NamedAPIResource) => {
   }
 };
 
-export async function fetchPokemonByNameOrId(identifier: string) {
-  const response = await fetch(pokemonUrl + identifier.toString());
-
-  if (response.status !== 200) {
-    return null;
-  }
-
-  const result: PokemonResultItem = await response.json();
-
+export const fetchPokemonByNameOrId = async (
+  identifier: string
+): Promise<Result<Pokemon, string>> => {
   try {
-    const pokemon = await extractPokemonData(result);
-    return pokemon;
-  } catch (error) {
-    console.error(`Failed to fetch data for "${identifier}":`, error);
-    return null;
-  }
-}
+    const queryString = pokemonUrl + identifier.toString();
+    const response = await fetch(queryString);
 
-export async function getRandomPokemon(number: number) {
-  const pokemonNames = new Set<string>();
-  const pokemonList: Pokemon[] = [];
-
-  const allNames = await getAllPokemonNames();
-
-  const total = allNames.length;
-
-  while (pokemonNames.size < number) {
-    const randomInt = Math.floor(Math.random() * total) + 1;
-    const randomName = allNames[randomInt];
-    // Check page exists before adding to set
-    const res = await fetchPokemonByNameOrId(randomName.toString());
-    if (res) {
-      pokemonNames.add(randomName.toString());
-      pokemonList.push(res);
+    if (response.status !== 200) {
+      return {
+        success: false,
+        error: `HTTP error for ${queryString}: ${response.status}`,
+      };
     }
+
+    const result: PokemonResultItem = await response.json();
+    const pokemonResult = await extractPokemonData(result);
+    if (!pokemonResult.success) {
+      return { success: false, error: pokemonResult.error };
+    }
+    return { success: true, data: pokemonResult.data };
+  } catch (error) {
+    const errorMsg = `Failed to fetch data for "${identifier}": ${error instanceof Error ? error.message : 'Unknown error'}`;
+    console.error(errorMsg);
+    return {
+      success: false,
+      error: errorMsg,
+    };
+  }
+};
+
+export const getRandomPokemonNames = async (
+  number: number
+): Promise<Result<string[], string>> => {
+  const pokemonSet = new Set<string>();
+
+  const allNamesResult = await getAllPokemonNames();
+  if (!allNamesResult.success) {
+    return { success: false, error: allNamesResult.error };
   }
 
-  return pokemonList;
-}
+  const total = allNamesResult.data.length;
 
-export function getIdfromApiUrl(url: string) {
+  while (pokemonSet.size < number) {
+    const randomInt = Math.floor(Math.random() * total) + 1;
+    const randomName = allNamesResult.data[randomInt];
+    pokemonSet.add(randomName.toString());
+  }
+  return { success: true, data: [...pokemonSet] };
+};
+
+export const getIdfromApiUrl = (url: string) => {
   const pathname = new URL(url).pathname;
   const route = pathname.split('api/v2/')[1];
   const id = route.split('/')[1]?.replace('/', '');
   return id;
-}
+};
