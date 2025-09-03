@@ -6,10 +6,10 @@ import { fetchPokemonByNameOrId } from '../data/rest-api/pokemon';
 
 export async function navigateToSearchedPokemon(formData: FormData) {
   const searchTerm = formData.get('search') as string;
-  if (!searchTerm) return;
+  if (!searchTerm) return; // FIX
 
-  const pokemon = await fetchPokemonByNameOrId(searchTerm);
-  if (!pokemon) return;
+  const pokemonResult = await fetchPokemonByNameOrId(searchTerm);
+  if (!pokemonResult.success) return; // FIX
 
-  redirect(`${ROUTES.POKEDEX.href}/${pokemon.name}`);
+  redirect(`${ROUTES.POKEDEX.href}/${pokemonResult.data.name}`);
 }
