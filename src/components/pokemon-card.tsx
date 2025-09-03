@@ -2,7 +2,7 @@ import { capitaliseFirstLetter } from '@/utils/strings';
 import Image from 'next/image';
 import { Pokemon, Result } from '@/lib/types/types';
 import { ASSET_PATHS } from '@/lib/constants';
-import PokemonErrorCard from './error/PokemonErrorCard';
+import PokemonErrorCard from './error/pokemon-error-card';
 
 interface PokemonCardProps {
   pokemonPromise: Promise<Result<Pokemon, string>>;
