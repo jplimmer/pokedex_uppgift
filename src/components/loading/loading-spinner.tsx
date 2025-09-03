@@ -3,7 +3,7 @@ import Image from 'next/image';
 
 export default function LoadingSpinner() {
   return (
-    <div className="flex flex-col items-center justify-center bg-white">
+    <div className="flex flex-col items-center justify-center bg-neutral-100">
       <Image
         src={ASSET_PATHS.LOADING}
         alt=""
