@@ -1,10 +1,11 @@
 import { capitaliseFirstLetter } from '@/utils/strings';
 import Image from 'next/image';
-import { Pokemon } from '@/lib/types/types';
+import { Pokemon, Result } from '@/lib/types/types';
 import { ASSET_PATHS } from '@/lib/constants';
+import PokemonErrorCard from './error/PokemonErrorCard';
 
 interface PokemonCardProps {
-  pokemon: Pokemon;
+  pokemonPromise: Promise<Result<Pokemon, string>>;
   inSubgrid?: boolean;
   className?: string;
 }
@@ -13,13 +14,20 @@ interface PokemonCardProps {
 export const pokemonCardStyle =
   'grid gap-2 border-4 border-indigo-400 rounded-lg bg-blue-50 p-6 pb-3 aspect-[3/4]';
 
-export default function PokemonCard({
-  pokemon,
+export default async function PokemonCard({
+  pokemonPromise,
   inSubgrid = false,
   className,
 }: PokemonCardProps) {
-  const StatKeys = ['hp', 'attack', 'defense'] as const;
+  const pokemonResult = await pokemonPromise;
 
+  if (!pokemonResult.success) {
+    return <PokemonErrorCard />;
+  }
+
+  const pokemon = pokemonResult.data;
+
+  const StatKeys = ['hp', 'attack', 'defense'] as const;
   const primaryColour = pokemon.primaryType.colour;
   const secondaryColour = `${primaryColour}40`;
 

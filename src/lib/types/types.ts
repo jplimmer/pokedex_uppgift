@@ -7,6 +7,11 @@ export interface NamedAPIResource {
   url: string;
 }
 
+export interface PokemonPromise {
+  name: string;
+  promise: Promise<Result<Pokemon, string>>;
+}
+
 export interface Pokemon {
   id: number;
   name: string;

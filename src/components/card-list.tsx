@@ -1,26 +1,30 @@
-import { Pokemon } from '@/lib/types/types';
+import { PokemonPromise } from '@/lib/types/types';
 import Link from 'next/link';
 import PokemonCard from './pokemon-card';
 import { ROUTES } from '@/lib/constants';
+import { Suspense } from 'react';
+import PokemonCardSkeleton from './loading/PokemonCardSkeleton';
 
-export default function CardList({ pokemonList }: { pokemonList: Pokemon[] }) {
+export default function CardList({
+  pokemonPromises,
+}: {
+  pokemonPromises: PokemonPromise[];
+}) {
   return (
     <ul className="grid grid-cols-[repeat(auto-fit,28ch)] gap-4 justify-center">
-      {pokemonList.map(
-        (p, i) =>
-          p.id && (
-            // <li key={i} className="w-full justify-items-center">
-            <li key={i} className={`grid grid-rows-subgrid row-span-4`}>
-              <Link
-                href={`${ROUTES.POKEDEX.href}/${p.name}`}
-                scroll={false}
-                className="contents"
-              >
-                <PokemonCard pokemon={p} inSubgrid={true} />
-              </Link>
-            </li>
-          )
-      )}
+      {pokemonPromises.map((promise, i) => (
+        <li key={i} className={`grid grid-rows-subgrid row-span-4`}>
+          <Suspense fallback={<PokemonCardSkeleton />}>
+            <Link
+              href={`${ROUTES.POKEDEX.href}/${promise.name}`}
+              scroll={false}
+              className="contents"
+            >
+              <PokemonCard pokemonPromise={promise.promise} inSubgrid={true} />
+            </Link>
+          </Suspense>
+        </li>
+      ))}
     </ul>
   );
 }
