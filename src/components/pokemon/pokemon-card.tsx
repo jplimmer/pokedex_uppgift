@@ -2,7 +2,7 @@ import { capitaliseFirstLetter } from '@/utils/strings';
 import Image from 'next/image';
 import { Pokemon, Result } from '@/lib/types/types';
 import { ASSET_PATHS } from '@/lib/constants';
-import PokemonErrorCard from './error/pokemon-error-card';
+import { PokemonErrorCard } from '../error';
 
 interface PokemonCardProps {
   pokemonPromise: Promise<Result<Pokemon, string>>;
@@ -14,7 +14,7 @@ interface PokemonCardProps {
 export const pokemonCardStyle =
   'grid gap-2 border-4 border-indigo-400 rounded-lg bg-blue-50 p-6 pb-3 aspect-[3/4]';
 
-export default async function PokemonCard({
+export async function PokemonCard({
   pokemonPromise,
   inSubgrid = false,
   className,

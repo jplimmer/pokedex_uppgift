@@ -7,7 +7,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 
 type Position = 'first' | 'last' | 'middle' | 'single';
 
-export default function Pagination({
+export function Pagination({
   totalPages,
   className,
 }: {

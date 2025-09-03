@@ -1,6 +1,5 @@
-import CardList from '@/components/card-list';
-import FilterBar from '@/components/filter-bar';
-import Pagination from '@/components/pagination';
+import { CardList } from '@/components/pokemon';
+import { FilterBar, Pagination } from '@/components/ui';
 import {
   createPokemonPromises,
   getAllPokemonNames,

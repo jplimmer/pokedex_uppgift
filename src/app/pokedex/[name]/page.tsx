@@ -1,4 +1,4 @@
-import PokemonCard from '@/components/pokemon-card';
+import { PokemonCard } from '@/components/pokemon';
 import {
   createPokemonPromises,
   fetchPokemonByNameOrId,

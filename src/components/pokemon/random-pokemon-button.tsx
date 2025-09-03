@@ -5,7 +5,7 @@ import { ASSET_PATHS, ROUTES } from '@/lib/constants';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-export default function RandomPokemonButton() {
+export function RandomPokemonButton() {
   const router = useRouter();
 
   const handleRandomSelection = async () => {

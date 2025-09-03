@@ -14,7 +14,7 @@ interface SearchBarProps {
   className?: string;
 }
 
-export default function SearchBar({
+export function SearchBar({
   searchAction,
   placeholder,
   allResults,

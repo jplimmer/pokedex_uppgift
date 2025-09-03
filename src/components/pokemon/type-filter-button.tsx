@@ -5,7 +5,7 @@ import { capitaliseFirstLetter } from '@/utils/strings';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
 
-export default function FilterButton({
+export function TypeFilterButton({
   pokemonType,
 }: {
   pokemonType: PokemonType;

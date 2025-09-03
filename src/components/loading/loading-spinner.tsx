@@ -1,7 +1,7 @@
 import { ASSET_PATHS } from '@/lib/constants';
 import Image from 'next/image';
 
-export default function LoadingSpinner() {
+export function LoadingSpinner() {
   return (
     <div className="flex flex-col items-center justify-center">
       <Image

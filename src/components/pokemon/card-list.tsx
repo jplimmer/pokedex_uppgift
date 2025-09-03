@@ -1,11 +1,11 @@
 import { PokemonPromise } from '@/lib/types/types';
 import Link from 'next/link';
-import PokemonCard from './pokemon-card';
+import { PokemonCard } from './pokemon-card';
 import { ROUTES } from '@/lib/constants';
 import { Suspense } from 'react';
-import PokemonCardSkeleton from './loading/PokemonCardSkeleton';
+import { PokemonCardSkeleton } from '../skeletons';
 
-export default function CardList({
+export function CardList({
   pokemonPromises,
 }: {
   pokemonPromises: PokemonPromise[];

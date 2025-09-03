@@ -1,6 +1,6 @@
-import LoadingSpinner from '@/components/loading/loading-spinner';
-import { Modal } from '@/components/modal';
-import PokemonCard from '@/components/pokemon-card';
+import { LoadingSpinner } from '@/components/loading';
+import { Modal } from '@/components/ui';
+import { PokemonCard } from '@/components/pokemon/';
 import { createPokemonPromises } from '@/lib/data/rest-api/pokemon';
 import { Suspense } from 'react';
 

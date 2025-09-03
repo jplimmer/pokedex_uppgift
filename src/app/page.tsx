@@ -1,6 +1,5 @@
-import CardList from '@/components/card-list';
-import RandomPokemonButton from '@/components/random-pokemon-button';
-import SearchBar from '@/components/search-bar';
+import { CardList, RandomPokemonButton } from '@/components/pokemon';
+import { SearchBar } from '@/components/ui/';
 import {
   createPokemonPromises,
   getAllPokemonNames,

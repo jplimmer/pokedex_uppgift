@@ -2,7 +2,7 @@ import { ASSET_PATHS, ROUTES } from '@/lib/constants';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export default function NavBar() {
+export function NavBar() {
   return (
     <nav className="flex items-center justify-between">
       <Link href={'/'} className="flex items-center gap-3 h-full py-4">

@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 
-export default function FilterBar({
+export function FilterBar({
   placeholder,
   wait = 600,
   className,
