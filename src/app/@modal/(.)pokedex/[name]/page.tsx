@@ -13,7 +13,7 @@ export default async function CardModal({
   const pokemonPromise = createPokemonPromises([name])[0];
 
   return (
-    <Modal dialogClassName="w-[40ch] [background-image:linear-gradient(-10deg,_#C97FE4,_#AECDF6)]">
+    <Modal dialogClassName="[background-image:linear-gradient(-10deg,_#C97FE4,_#AECDF6)]">
       <Suspense fallback={<LoadingSpinner />}>
         <PokemonCard pokemonPromise={pokemonPromise.promise} />
       </Suspense>

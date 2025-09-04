@@ -12,7 +12,7 @@ interface PokemonCardProps {
 
 // For use of parent if PokemonCard used in subgrid
 export const pokemonCardStyle =
-  'grid gap-2 border-4 border-indigo-400 rounded-lg bg-blue-50 p-6 pb-3 aspect-[3/5]';
+  'grid gap-2 border-4 border-indigo-400 rounded-xl bg-blue-50 p-6 pb-3 min-w-[15rem] aspect-[5/7]';
 
 export async function PokemonCard({
   pokemonPromise,
@@ -39,7 +39,7 @@ export async function PokemonCard({
           : `${pokemonCardStyle} ${className}`
       }
     >
-      <h3 className="grid self-center text-2xl text-center">
+      <h3 className="grid place-content-center h-[3rem] text-2xl text-center">
         {capitaliseFirstLetter(pokemon.name)}
       </h3>
       <div className="flex flex-col items-center order-first gap-2">
