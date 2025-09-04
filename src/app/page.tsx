@@ -38,12 +38,17 @@ export default async function Home() {
         <RandomPokemonButton />
       </section>
       <section className="content-grid full-width bg-white py-8">
-        <SearchBar
-          searchAction={navigateToSearchedPokemon}
-          placeholder="Search for a Pokémon..."
-          allResults={pokemonList}
-          className="w-2/3 m-auto"
-        />
+        <Suspense
+          fallback={
+            <SearchBar
+              searchAction={navigateToSearchedPokemon}
+              placeholder="Search for a Pokémon..."
+              className="w-2/3 m-auto"
+            />
+          }
+        >
+          <PokemonSearchBar className="w-2/3 m-auto" />
+        </Suspense>
       </section>
       <section className="content-grid full-width [background-image:linear-gradient(-10deg,_#f5e6fb,_#eef5fd)] pb-12">
         <h2 className="text-bold text-center text-4xl p-8">Featured Pokémon</h2>
