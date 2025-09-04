@@ -18,6 +18,7 @@ export const ROUTES = {
 } as const;
 
 export const ASSET_PATHS = {
+  CARD_BACK: '/card_back.png',
   DICE: '/Dice.svg',
   ERROR: '/failed.jpg',
   FACEBOOK: '/Facebook.svg',
