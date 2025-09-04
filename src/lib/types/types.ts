@@ -1,6 +1,15 @@
+export type Result<T, E = Error> =
+  | { success: true; data: T }
+  | { success: false; error: E };
+
 export interface NamedAPIResource {
   name: string;
   url: string;
+}
+
+export interface PokemonPromise {
+  name: string;
+  promise: Promise<Result<Pokemon, string>>;
 }
 
 export interface Pokemon {

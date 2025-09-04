@@ -1,18 +1,18 @@
 'use client';
 
-import { getRandomPokemon } from '@/lib/data/rest-api/pokemon';
+import { getRandomPokemonNames } from '@/lib/data/rest-api/pokemon';
 import { ASSET_PATHS, ROUTES } from '@/lib/constants';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
-export default function RandomPokemonButton() {
+export function RandomPokemonButton() {
   const router = useRouter();
 
   const handleRandomSelection = async () => {
-    const randomPokemon = await getRandomPokemon(1);
+    const randomPokemonResult = await getRandomPokemonNames(1);
 
-    if (randomPokemon) {
-      router.push(`${ROUTES.POKEDEX.href}/${randomPokemon[0].name}`, {
+    if (randomPokemonResult.success) {
+      router.push(`${ROUTES.POKEDEX.href}/${randomPokemonResult.data[0]}`, {
         scroll: false,
       });
     } else {

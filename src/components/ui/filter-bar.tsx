@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 
-export default function FilterBar({
+export function FilterBar({
   placeholder,
   wait = 600,
   className,
@@ -30,7 +30,7 @@ export default function FilterBar({
   }, wait);
 
   return (
-    <div className="flex">
+    <div className={`flex ${className}`}>
       <label htmlFor="filter-bar" className="sr-only">
         {placeholder ?? 'Search'}
       </label>
@@ -41,7 +41,7 @@ export default function FilterBar({
         defaultValue={searchParams.get('query')?.toString()}
         placeholder={placeholder ?? 'Search...'}
         autoComplete="off"
-        className={`border-2 border-neutral-500 rounded-md bg-white py-2 px-4 ${className}`}
+        className={`w-full border-2 border-neutral-500 rounded-md bg-white py-2 px-4`}
       />
     </div>
   );

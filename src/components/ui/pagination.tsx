@@ -4,16 +4,19 @@ import { generatePagination } from '@/utils/pagination';
 import { CircleArrowLeft, CircleArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
+import { use } from 'react';
 
 type Position = 'first' | 'last' | 'middle' | 'single';
 
-export default function Pagination({
-  totalPages,
+export function Pagination({
+  pagesPromise,
   className,
 }: {
-  totalPages: number;
+  pagesPromise: Promise<number>;
   className?: string;
 }) {
+  const totalPages = use(pagesPromise);
+
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const currentPage = Number(searchParams.get('page')) || 1;
@@ -28,7 +31,9 @@ export default function Pagination({
 
   return (
     <>
-      <div className={`flex items-center gap-4 ${className}`}>
+      <div
+        className={`flex w-[20rem] items-center justify-center gap-4 ${className}`}
+      >
         <PaginationArrow
           direction="left"
           href={createPageUrl(currentPage - 1)}

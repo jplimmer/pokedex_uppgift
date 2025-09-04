@@ -1,7 +1,7 @@
 'use client';
 
 import { ASSET_PATHS } from '@/lib/constants';
-import { capitaliseFirstLetter, splitByQuery } from '@/utils/text-utils';
+import { capitaliseFirstLetter, splitByQuery } from '@/utils/strings';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
@@ -14,7 +14,7 @@ interface SearchBarProps {
   className?: string;
 }
 
-export default function SearchBar({
+export function SearchBar({
   searchAction,
   placeholder,
   allResults,

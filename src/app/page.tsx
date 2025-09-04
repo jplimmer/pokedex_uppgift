@@ -1,20 +1,12 @@
-import CardList from '@/components/card-list';
-import RandomPokemonButton from '@/components/random-pokemon-button';
-import SearchBar from '@/components/search-bar';
-import {
-  getAllPokemonNames,
-  getRandomPokemon,
-} from '@/lib/data/rest-api/pokemon';
+import { RandomPokemonButton } from '@/components/pokemon';
+import { SearchBar } from '@/components/ui/';
 import { navigateToSearchedPokemon } from '@/lib/actions/serverActions';
+import { Suspense } from 'react';
+import { CardListSkeleton } from '@/components/skeletons/card-list-skeleton';
+import { PokemonSearchBar } from '@/components/pokemon/pokemon-search-bar';
+import { FeaturedList } from '@/components/pokemon/featured-list';
 
-export default async function Home() {
-  const pokemonList = await getAllPokemonNames();
-  if (!pokemonList) {
-    console.warn('Failed to fetch all pokemon names');
-  }
-
-  const featuredList = await getRandomPokemon(4);
-
+export default function Home() {
   return (
     <>
       <section className="content-grid full-width items-center gap-4 [background-image:linear-gradient(-10deg,_#C97FE4,_#AECDF6)]">
@@ -28,16 +20,23 @@ export default async function Home() {
         <RandomPokemonButton />
       </section>
       <section className="content-grid full-width bg-white py-8">
-        <SearchBar
-          searchAction={navigateToSearchedPokemon}
-          placeholder="Search for a Pokémon..."
-          allResults={pokemonList}
-          className="w-2/3 m-auto"
-        />
+        <Suspense
+          fallback={
+            <SearchBar
+              searchAction={navigateToSearchedPokemon}
+              placeholder="Search for a Pokémon..."
+              className="w-2/3 m-auto"
+            />
+          }
+        >
+          <PokemonSearchBar className="w-2/3 m-auto" />
+        </Suspense>
       </section>
       <section className="content-grid full-width [background-image:linear-gradient(-10deg,_#f5e6fb,_#eef5fd)] pb-12">
         <h2 className="text-bold text-center text-4xl p-8">Featured Pokémon</h2>
-        <CardList pokemonList={featuredList} />
+        <Suspense fallback={<CardListSkeleton numCards={4} />}>
+          <FeaturedList number={4} />
+        </Suspense>
       </section>
     </>
   );

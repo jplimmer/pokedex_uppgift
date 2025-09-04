@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ASSET_PATHS } from '@/lib/constants';
 
-export default function Footer() {
+export function Footer() {
   return (
     <div className="flex flex-col items-center p-12 gap-6 text-white m-auto">
       <Link href={'/'} className="flex items-center gap-3">
