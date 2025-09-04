@@ -3,12 +3,13 @@ import Image from 'next/image';
 
 export function LoadingSpinner({ width = 200 }: { width?: number }) {
   return (
-    <Image
-      src={ASSET_PATHS.LOADING}
-      alt=""
-      width={width}
-      height={width}
-      className="animate-spin"
-    />
+    <div className="relative" style={{ width, height: width }}>
+      <Image
+        src={ASSET_PATHS.LOADING}
+        alt=""
+        fill
+        className="object-contain animate-spin"
+      />
+    </div>
   );
 }

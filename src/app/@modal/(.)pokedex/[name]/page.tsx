@@ -14,7 +14,13 @@ export default async function CardModal({
 
   return (
     <Modal dialogClassName="[background-image:linear-gradient(-10deg,_#C97FE4,_#AECDF6)]">
-      <Suspense fallback={<LoadingSpinner />}>
+      <Suspense
+        fallback={
+          <div className="flex justify-center items-center w-[15rem] aspect-[5/7]">
+            <LoadingSpinner />
+          </div>
+        }
+      >
         <PokemonCard pokemonPromise={pokemonPromise.promise} />
       </Suspense>
     </Modal>
