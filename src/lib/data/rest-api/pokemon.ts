@@ -31,8 +31,6 @@ export const getNumberOfPokemon = async (): Promise<Result<number, string>> => {
 export const getAllPokemon = async (): Promise<
   Result<NamedAPIResource[], string>
 > => {
-  console.time('getAllPokemon()');
-
   try {
     const limitResult = await getNumberOfPokemon();
     if (!limitResult.success) {
@@ -56,8 +54,6 @@ export const getAllPokemon = async (): Promise<
     const errorMsg = `Failed to fetch all Pokémon: ${error instanceof Error ? error.message : 'Unknown error'}`;
     console.error(errorMsg);
     return { success: false, error: errorMsg };
-  } finally {
-    console.timeEnd('getAllPokemon()');
   }
 };
 
@@ -78,8 +74,6 @@ export const getAllPokemonNames = async (): Promise<
 export const getPokemonData = async (
   list: NamedAPIResource[]
 ): Promise<Result<Pokemon[], string>> => {
-  console.time('getPokemonData() - TOTAL');
-
   // Guard limit against excessive API calls
   const maxQueries = 20;
   if (list.length > maxQueries) {
@@ -90,14 +84,11 @@ export const getPokemonData = async (
 
   try {
     // Fetch data for all Pokémon in list
-    // console.time('getPokemonData - fetchPromises');
     const fetchPromises = list.map((p) =>
       fetch(p.url, { cache: 'force-cache' }).catch(() => null)
     );
     const responses = await Promise.all(fetchPromises);
-    // console.timeEnd('getPokemonData - fetchPromises');
 
-    // console.time('getPokemonData - filter successful');
     const successfulResponses = responses.filter(
       (res): res is Response => !!res && res?.ok
     );
@@ -111,17 +102,13 @@ export const getPokemonData = async (
     if (successfulResponses.length === 0) {
       return { success: false, error: 'All Pokémon data requests failed' };
     }
-    // console.timeEnd('getPokemonData - filter successful');
 
     // Parse responses to JSON
-    // console.time('getPokemonData - parse JSONs');
     const data: PokemonResultItem[] = await Promise.all(
       successfulResponses.map((res) => res.json())
     );
-    // console.timeEnd('getPokemonData - parse JSONs');
 
     // Extract required Pokémon data
-    // console.time('getPokemonData - extractPokemonData');
     const allPokemon: Pokemon[] = [];
     const ignoredPokemon: string[] = [];
 
@@ -141,15 +128,12 @@ export const getPokemonData = async (
         `The following Pokémon could not be processed: ${ignoredPokemon.join(', ')}`
       );
     }
-    // console.timeEnd('getPokemonData - extractPokemonData');
 
     return { success: true, data: allPokemon };
   } catch (error) {
     const errorMsg = `Error fetching Pokémon data: ${error instanceof Error ? error.message : 'Unknown error'}`;
     console.error(errorMsg);
     return { success: false, error: errorMsg };
-  } finally {
-    console.timeEnd('getPokemonData() - TOTAL');
   }
 };
 
