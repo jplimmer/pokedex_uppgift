@@ -12,7 +12,7 @@ interface PokemonCardProps {
 
 // For use of parent if PokemonCard used in subgrid
 export const pokemonCardStyle =
-  'grid gap-2 border-4 border-indigo-400 rounded-lg bg-blue-50 p-6 pb-3 aspect-[3/4]';
+  'grid gap-2 border-4 border-indigo-400 rounded-lg bg-blue-50 p-6 pb-3 aspect-[3/5]';
 
 export async function PokemonCard({
   pokemonPromise,

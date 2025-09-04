@@ -11,7 +11,7 @@ export function CardList({
   pokemonPromises: PokemonPromise[];
 }) {
   return (
-    <ul className="grid grid-cols-[repeat(auto-fit,28ch)] gap-4 justify-center">
+    <ul className="grid grid-cols-[repeat(auto-fit,13rem)] gap-4 justify-center">
       {pokemonPromises.map((promise, i) => (
         <li key={i} className={`grid grid-rows-subgrid row-span-4`}>
           <Suspense fallback={<PokemonCardSkeleton />}>
