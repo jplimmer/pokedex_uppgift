@@ -72,8 +72,8 @@ h3 {
   --spacing-sm: 0.5rem;
   --spacing-xs: 0.25rem;
 
-  --content-max-width: 75rem;
-  --breakout-max-width: 90rem;
+  --content-max-width: 65rem;
+  --breakout-max-width: 75rem;
   --padding-inline: var(--spacing-md);
   --breakout-size: calc(
     (var(--breakout-max-width) - var(--content-max-width)) / 2
