@@ -1,8 +1,5 @@
-import { TypeFilterList } from '@/components/pokemon';
-import { CardListWrapper } from '@/components/pokemon/card-list-wrapper';
-import { TypeFilterListSkeleton } from '@/components/skeletons';
-import { CardListSkeleton } from '@/components/skeletons/card-list-skeleton';
-import { PaginationSkeleton } from '@/components/skeletons/pagination-skeleton';
+import { CardListWrapper } from '@/components/pokemon';
+import { CardListSkeleton, PaginationSkeleton } from '@/components/skeletons';
 import { Pagination } from '@/components/ui';
 import {
   createPokemonPromises,
@@ -94,24 +91,18 @@ export default async function TypesPage({
   };
 
   return (
-    <div className="content-grid full-width [background-image:linear-gradient(-10deg,_#f5e6fb,_#eef5fd)] py-8">
-      <div className="grid grid-rows-[auto_auto_1fr] space-y-8">
-        <h2 className="text-4xl text-center">Types</h2>
-        <Suspense
-          fallback={<PaginationSkeleton className="mx-auto text-neutral-500" />}
-        >
-          <Pagination
-            pagesPromise={getTotalPages()}
-            className="mx-auto text-neutral-500"
-          />
-        </Suspense>
-        <Suspense fallback={<TypeFilterListSkeleton numButtons={18} />}>
-          <TypeFilterList />
-        </Suspense>
-        <Suspense fallback={<CardListSkeleton numCards={pageLimit} />}>
-          <CardListWrapper promiseGenerator={getFirstPagePromises} />
-        </Suspense>
-      </div>
-    </div>
+    <>
+      <Suspense
+        fallback={<PaginationSkeleton className="mx-auto text-neutral-500" />}
+      >
+        <Pagination
+          pagesPromise={getTotalPages()}
+          className="mx-auto text-neutral-500"
+        />
+      </Suspense>
+      <Suspense fallback={<CardListSkeleton numCards={pageLimit} />}>
+        <CardListWrapper promiseGenerator={getFirstPagePromises} />
+      </Suspense>
+    </>
   );
 }
