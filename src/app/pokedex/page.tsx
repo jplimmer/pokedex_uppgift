@@ -1,6 +1,5 @@
 import { CardListWrapper } from '@/components/pokemon/card-list-wrapper';
-import { CardListSkeleton } from '@/components/skeletons/card-list-skeleton';
-import { PaginationSkeleton } from '@/components/skeletons/pagination-skeleton';
+import { CardListSkeleton, PaginationSkeleton } from '@/components/skeletons/';
 import { FilterBar, Pagination } from '@/components/ui';
 import {
   createPokemonPromises,
