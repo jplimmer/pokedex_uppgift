@@ -2,9 +2,9 @@ import { RandomPokemonButton } from '@/components/pokemon';
 import { SearchBar } from '@/components/ui/';
 import { navigateToSearchedPokemon } from '@/lib/actions/serverActions';
 import { Suspense } from 'react';
-import { CardListSkeleton } from '@/components/skeletons/card-list-skeleton';
-import { PokemonSearchBar } from '@/components/pokemon/pokemon-search-bar';
+import { CardListSkeleton } from '@/components/skeletons/';
 import { FeaturedList } from '@/components/pokemon/featured-list';
+import { getAllPokemonNames } from '@/lib/data/rest-api/pokemon';
 
 export default function Home() {
   return (
@@ -20,20 +20,15 @@ export default function Home() {
         <RandomPokemonButton />
       </section>
       <section className="content-grid full-width bg-white py-8">
-        <Suspense
-          fallback={
-            <SearchBar
-              searchAction={navigateToSearchedPokemon}
-              placeholder="Search for a Pokémon..."
-              className="w-2/3 m-auto"
-            />
-          }
-        >
-          <PokemonSearchBar className="w-2/3 m-auto" />
-        </Suspense>
+        <SearchBar
+          searchAction={navigateToSearchedPokemon}
+          allResultsPromise={getAllPokemonNames()}
+          placeholder="Search for a Pokémon..."
+          className="w-2/3 m-auto"
+        />
       </section>
       <section className="content-grid full-width [background-image:linear-gradient(-10deg,_#f5e6fb,_#eef5fd)] pb-12">
-        <h2 className="text-bold text-center text-4xl p-8">Featured Pokémon</h2>
+        <h2 className="text-center text-4xl p-8">Featured Pokémon</h2>
         <Suspense fallback={<CardListSkeleton numCards={4} />}>
           <FeaturedList number={4} />
         </Suspense>
