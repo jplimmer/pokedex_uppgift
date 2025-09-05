@@ -20,7 +20,7 @@ export const ROUTES = {
 export const ASSET_PATHS = {
   CARD_BACK: '/card_back.png',
   DICE: '/Dice.svg',
-  ERROR: '/failed.jpg',
+  ERROR: '/error.png',
   FACEBOOK: '/Facebook.svg',
   INSTAGRAM: '/Instagram.svg',
   LOADING: '/pokeball.svg',
